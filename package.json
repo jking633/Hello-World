@@ -1,0 +1,25 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "I'm an Earthling!",
+  "main": "jest.config.js",
+  "scripts": {
+    "lint": "eslint 'tests/**/*.js'",
+    "test": "jest --no-watchman"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jking633/hello-world.git"
+  },
+  "author": "Jesse Raygoza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jking633/hello-world/issues"
+  },
+  "homepage": "https://github.com/jking633/hello-world#readme",
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "^24.3.1"
+  }
+}
