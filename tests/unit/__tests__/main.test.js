@@ -28,8 +28,8 @@ describe('it all starts here', () => {
     console.log(dom.window.document.querySelector('p').textContent)
 
     dom.reconfigure({
-      windowTop: myFakeTopForTesting,
-      url: 'https://example.com/',
+      // windowTop: myFakeTopForTesting,
+      // url: 'https://example.com/',
       protocol: 'https',
     })
 
