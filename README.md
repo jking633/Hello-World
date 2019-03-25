@@ -16,3 +16,5 @@ I got a lot of ideas I want to have fun creating and sending out into the atmosp
 ## Linting
 
 - Run `yarn lint`
+
+## Goal - Create an app with for Web/iOS/Android
