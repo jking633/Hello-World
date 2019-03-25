@@ -6,4 +6,7 @@ module.exports = {
     '<rootDir>/.jest/testSetupFile.js', // comes after testEnvironment - env.js
   ],
   testEnvironment: './.jest/env.js', // calls both setup.js & teardown.js
+  globals: {
+    window: true,
+  },
 }

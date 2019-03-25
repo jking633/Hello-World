@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint 'tests/**/*.js' 'src/**/*.js' '.jest/**/*.js'",
-    "test": "jest --no-watchman",
-    "test:watch": "jest --watch"
+    "test": "jest --no-watchman --env=jsdom",
+    "test:watch": "jest --watch --env=jsdom"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,14 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "jest": "^24.3.1",
+    "jest-environment-node": "^24.5.0",
     "jsdom": "^14.0.0",
     "prettier": "^1.16.4"
+  },
+  "jest": {
+    "globals": {
+      "window": true
+    },
+    "testEnvironment": "node"
   }
 }

@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 // const {
 //   JSDOM
 // } = require('jsdom').JSDOM
@@ -17,7 +21,7 @@ describe('it all starts here', () => {
     expect(global).toBeDefined()
   })
 
-  it('works with JSDOM', (done) => {
+  it('works with JSDOM', done => {
     // jsdom.ResourceLoader()
     const myFakeTopForTesting = 150
 
