@@ -1,0 +1,206 @@
+/**
+ * @jest-environment jsdom
+ */
+
+/* eslint-disable */
+
+module.exports = {
+  "env": {
+    "development": {
+      "presets": ["es2015", "stage-1", "react"],
+      "plugins": [
+        ["webpack-alias", {
+          "config": "./conf.repo.js"
+        }],
+        ["transform-runtime",
+          {
+            "regenerator": true
+          }
+        ],
+        "dev-expression",
+        "dynamic-import-node"
+      ]
+    },
+    "test": {
+      // "comments": true,
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": [
+              "last 3 versions",
+              "IE >=10"
+            ]
+          },
+          "modules": "commonjs"
+        }],
+        "stage-1",
+        "react"
+      ],
+      "plugins": [
+        ["webpack-alias", {
+          "config": "./conf.repo.js"
+        }],
+        ["transform-runtime",
+          {
+            "regenerator": true
+          }
+        ],
+        "dynamic-import-node"
+      ]
+    },
+    "cjs": {
+      "presets": [
+        "react"
+      ],
+      "plugins": [
+        ["webpack-alias", {
+          "config": "./conf.repo.js"
+        }],
+        ["transform-runtime",
+          {
+            "regenerator": true
+          }
+        ],
+        ["transform-define", {
+          "SHOULD_ADD_CONSOLE": false
+        }],
+        "transform-export-extensions",
+        "transform-es2015-modules-commonjs",
+        "dynamic-import-node",
+        "syntax-object-rest-spread"
+      ]
+    },
+    "tight": {
+      "minified": true,
+      "presets": [
+        "react"
+      ],
+      "plugins": [
+        ["webpack-alias", {
+          "config": "./conf.repo.js"
+        }],
+        ["transform-runtime",
+          {
+            "regenerator": true
+          }
+        ],
+        "transform-export-extensions",
+        "transform-es2015-modules-commonjs",
+        "dynamic-import-node",
+        "syntax-object-rest-spread"
+      ]
+    },
+    "e2e": {
+      "presets": [
+        "es2015"
+      ],
+      "plugins": [
+        "transform-export-extensions",
+        "transform-es2015-modules-commonjs",
+        "dynamic-import-node",
+        "syntax-object-rest-spread"
+      ]
+    }
+  }
+}
+
+// const jsdom = require('jsdom');
+// const { JSDOM } = jsdom;
+// const dom = new JSDOM();
+// dom.window.top === dom.window;
+// dom.window.location.href === "about:blank";
+// dom.reconfigure({ windowTop: myFakeTopForTesting, url: "https://example.com/" });
+// dom.window.top === myFakeTopForTesting;
+// dom.window.location.href === "https://example.com/";
+
+// Old way
+// global.testCtx.location('protocol', 'https:');
+
+// New way
+// jsdom.reconfigure({
+//   url: 'https://www.example.com/'
+// });
+
+// window.location.assign = jest.fn();
+// window.location.assign.mockRestore();
+
+// const dom = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`);
+// console.log(dom.window.document.querySelector('p').textContent);
+
+// const window = new JSDOM(``, {
+//   protocol: 'https:',
+//   url: 'https://example.org/',
+//   referrer: 'https://example.com/',
+//   contentType: 'text/html',
+//   includeNodeLocations: true,
+//   storageQuota: 10000000,
+//   href: 'https://example.com',
+// });
+
+it.only('testing this biach', (done) => {
+  console.log(dom.window.document.querySelector('p').textContent);  // eslint-disable-line
+
+  dom.reconfigure({ // eslint-disable-line
+    protocol: 'https',
+  });
+
+  done();
+});
+
+// import { getOrCreateTimer, getOrCreateCounter } from 'SERVER/utils/metrics';
+
+// Jest 24 version
+// Addresses babel-plugin-jest-hoist: The module factory
+// of `jest.mock()` is not allowed to reference any out-of-scope
+// variables error
+// const signalFxTimerStart = jest.fn();
+// const signalFxErrorReporter = jest.fn();
+
+// jest.mock('SERVER/utils/metrics', () => jest.fn);
+// getOrCreateTimer.mockImplementation(() => ({
+//   start: signalFxTimerStart,
+// }));
+
+// getOrCreateCounter.mockImplementation(() => ({
+//   inc: signalFxErrorReporter,
+// }));
+
+// Jest 21 version
+// jest.mock('SERVER/utils/metrics', () => ({
+//   getOrCreateTimer: jest.fn(() => ({
+//     start: signalFxTimerStart,
+//   })),
+//   getOrCreateCounter: jest.fn(() => ({
+//     inc: signalFxErrorReporter,
+//   })),
+// }));
+
+// Alternative
+// import jsdom from 'jsdom';
+// const DEFAULT_HTML = '<html><body></body></html>';
+
+// Define some variables to make it look like we're a browser
+// First, use JSDOM's fake DOM as the document
+// global.document = jsdom.jsdom(DEFAULT_HTML);
+
+// Set up a mock window
+// global.window = document.defaultView;
+// global.window.location = "https://www.example.com/"
+// ...Do extra loading of things like localStorage that are not supported by jsdom
+
+
+// const JSDOMEnvironment = require('jest-environment-jsdom');
+
+// class BrowseJSDomEnvironment extends JSDOMEnvironment {
+//   constructor(config) {
+//     super(config);
+//     this.global.jsdom = this.dom;
+//   }
+
+//   async teardown() {
+//     this.global.jsdom = null;
+//     await super.teardown();
+//   }
+// };
+
+// module.exports = BrowseJSDomEnvironment;
