@@ -9,6 +9,7 @@ describe('it all starts here', () => {
   it('works', () => {
     url = 'http://testing.com'
     window.location.assign(url)
+
     expect(global).toBeDefined()
     expect(window.location.assign).toBeCalledWith(url)
   })

@@ -1,5 +1,5 @@
 // Most basic test
-const { setLocProp } = require('../../../.jest/dom')
+const { getBrowserId, setLocProp } = require('../../../.jest/dom')
 
 describe('it all starts here', () => {
   beforeEach(() => {
@@ -11,7 +11,9 @@ describe('it all starts here', () => {
   it('just works', () => {
     url = 'http://testing.com'
     window.location.assign(url)
+    console.log('Browser:', getBrowserId())
     expect(global).toBeDefined()
+    // expect(navigator.userAgent).toBe('Chrome')
     expect(window.location.assign).toBeCalledWith(url)
   })
 

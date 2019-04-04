@@ -52,7 +52,37 @@ function loadExternalScripts(window, srcArray) {
   })
 }
 
+function getBrowserId() {
+  const aKeys = ['MSIE', 'Firefox', 'Safari', 'Chrome', 'Opera']
+  const sUsrAg = navigator.userAgent
+  let nIdx = aKeys.length - 1
+
+  for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--)
+  // return nIdx
+  // console.log(nIdx)
+  switch (nIdx) {
+    case 1:
+      return 'MSIE'
+      break
+    case 2:
+      return 'Firefox'
+      break
+    case 3:
+      return 'Safari'
+      break
+    case 4:
+      return 'Chrome'
+      break
+    case 5:
+      return 'Opera'
+      break
+    default:
+      return 'jsdom'
+  }
+}
+
 module.exports = {
-  setLocProp,
+  getBrowserId,
   loadExternalScripts,
+  setLocProp,
 }

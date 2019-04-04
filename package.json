@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint --fix 'tests/**/*.js' 'src/**/*.js' '.jest/**/*.js'",
     "test": "yarn lint && jest --no-watchman --env=jsdom",
-    "test:watch": "jest --watch --env=jsdom --verbose"
+    "test:watch": "jest --watch --env=jsdom --verbose",
+    "start": "node ./src/server.js"
   },
   "repository": {
     "type": "git",
