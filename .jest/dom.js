@@ -5,26 +5,12 @@ window.testCtx = {
    * @param {String} val - The value of the prop.
    */
 
-  // const windowLocation = JSON.stringify(window.location);
-  // delete window.location;
-  // Object.defineProperty(window.location, prop, {
-  //   writable: true,
-  //   value: JSON.parse(windowLocation),
-  // });
-
   location: options => {
+    const location = JSON.stringify(window.location)
+    delete window.location
     Object.defineProperty(window, 'location', {
       writable: true,
-      value: Object.assign({
-        href: 'http://local',
-        origin: 'local',
-        protocol: 'http:',
-        host: 'http://local',
-        pathname: 'nike',
-        port: '3000',
-        search: '?=red',
-        hash: '#help',
-      }, options)
+      value: Object.assign(JSON.parse(location), options),
     })
   },
   /**
@@ -32,34 +18,41 @@ window.testCtx = {
    * @param {String} prop - The `navigator` prop you want to set.
    * @param {String} val - The value of the prop.
    */
-  navigator: function(prop, val){
+  navigator: function(prop, val) {
     Object.defineProperty(window.navigator, prop, {
       writable: true,
-      value: val
+      value: val,
     })
   },
 }
 
-
-const setPathName = () => {
-  const urlRoot = 'localTest'
-  global.window = Object.create(window);
+const setLocProp = options => {
+  const location = JSON.stringify(window.location)
+  delete window.location
   Object.defineProperty(window, 'location', {
-    value: {
-      pathname: `${urlRoot}/more/stuff`,
-    },
     writable: true,
+    value: Object.assign(JSON.parse(location), options),
   })
 }
 
-const setLocProp = (options) => {
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: Object.assign({}, options)
+/**
+ *
+ * @param {object} window global object
+ * @param {array} srcArray files to load during beforeAll
+ * Use like this:
+ * const jQueryFile = fs.readFileSync("jquery.js", { encoding: "utf-8" })
+ * const srcFile = fs.readFileSync("lib.js", { encoding: "utf-8" })
+ * loadExternalScripts(window, [jQueryFile, srcFile])
+ */
+function loadExternalScripts(window, srcArray) {
+  srcArray.forEach(src => {
+    const scriptEl = window.document.createElement('script')
+    scriptEl.textContent = src
+    window.document.body.appendChild(scriptEl)
   })
 }
 
 module.exports = {
   setLocProp,
-  setPathName
+  loadExternalScripts,
 }

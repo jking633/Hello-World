@@ -1,7 +1,6 @@
 module.exports = {
-  globalSetup: './.jest/setup.js', // set config objects for jest & puppeteer
-  globalTeardown: './.jest/teardown.js', // closes puppeteer browser
   rootDir: './',
+  testEnvironment: './.jest/env.js', // calls both setup.js & teardown.js
   setupFilesAfterEnv: [
     '<rootDir>/.jest/testSetupFile.js', // comes after testEnvironment - env.js
   ],
@@ -12,4 +11,6 @@ module.exports = {
     jsdom: true,
   },
   testURL: 'http://mylocal',
+  globalSetup: './.jest/setup.js', // set config objects for jest & puppeteer
+  globalTeardown: './.jest/teardown.js', // closes puppeteer browser
 }

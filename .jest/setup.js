@@ -1,4 +1,4 @@
-module.exports = async function () {
+module.exports = async function() {
   /* setup.js */
   // const jsdom = require('jsdom')
   // const {
@@ -39,4 +39,6 @@ module.exports = async function () {
   //   clearTimeout(id)
   // }
   // copyProps(window, global)
+
+  console.log('jest env setup fired ...')
 }

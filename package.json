@@ -4,9 +4,9 @@
   "description": "I'm an Earthling!",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint 'tests/**/*.js' 'src/**/*.js' '.jest/**/*.js'",
-    "test": "jest --no-watchman --env=jsdom",
-    "test:watch": "jest --watch --env=jsdom"
+    "lint": "eslint --fix 'tests/**/*.js' 'src/**/*.js' '.jest/**/*.js'",
+    "test": "yarn lint && jest --no-watchman --env=jsdom",
+    "test:watch": "jest --watch --env=jsdom --verbose"
   },
   "repository": {
     "type": "git",
@@ -25,12 +25,6 @@
     "eslint-plugin-react": "^7.12.4",
     "jest": "^24.3.1",
     "prettier": "^1.16.4"
-  },
-  "jest": {
-    "globals": {
-      "window": true
-    },
-    "testEnvironment": "node"
   },
   "dependencies": {
     "react-dev-utils": "^8.0.0"
