@@ -19,7 +19,7 @@ const app = express()
 // SSR w/ shared state
 app.use(cors())
 app.use(express.static('public'))
-
+app.get('/favicon.ico', (req, res) => res.status(204))
 app.get('*', (req, res, next) => {
   const activeRoute = routes.find(route => matchPath(req.url, route)) || {}
 
@@ -42,7 +42,7 @@ app.get('*', (req, res, next) => {
       <html>
         <head>
           <title>SSR with RR</title>
-          <script src="/bundle.js" defer></script>
+          <script src="/client.js" defer></script>
           <script>window.__INITIAL_DATA__ = ${serialize(data)}</script>
         </head>
 

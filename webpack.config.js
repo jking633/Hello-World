@@ -2,60 +2,32 @@ const path = require('path')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
-const browserConfig = {
+const client = {
   entry: './src/Client/client.js',
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js',
+    filename: 'client.js',
     publicPath: '/',
   },
   module: {
     rules: [{ test: /\.(js)$/, use: 'babel-loader' }],
   },
-  plugins: [
-    // new webpack.DefinePlugin({
-    //   __isBrowser__: JSON.stringify(true),
-    // }),
-  ],
+  plugins: [],
 }
 
-const serverConfig = {
-  entry: './src/server/server.js',
+const server = {
+  entry: './index.js',
   target: 'node',
   externals: [nodeExternals()],
   output: {
     path: __dirname,
-    filename: 'server.js',
+    filename: './build/server.js',
     publicPath: '/',
   },
   module: {
     rules: [{ test: /\.(js)$/, use: 'babel-loader' }],
   },
-  plugins: [
-    // new webpack.DefinePlugin({
-    //   __isBrowser__: JSON.stringify(false),
-    // }),
-  ],
+  plugins: [],
 }
 
-module.exports = [browserConfig, serverConfig]
-
-// module.exports = {
-//   entry: {
-//     client: './src/client.js',
-//     bundle: './src/bundle.js',
-//   },
-//   output: {
-//     path: path.resolve(__dirname, 'assets'),
-//     filename: '[name].js',
-//   },
-//   module: {
-//     rules: [
-//       {
-//         test: /\.js$/,
-//         exclude: /node_modules/,
-//         loader: 'babel-loader',
-//       },
-//     ],
-//   },
-// }
+module.exports = [client, server]
