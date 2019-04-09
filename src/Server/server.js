@@ -9,6 +9,8 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter, matchPath } from 'react-router-dom'
 import express from 'express'
+// import mcache from 'memory-cache'
+import favicon from 'serve-favicon'
 import serialize from 'serialize-javascript'
 import App from '../Shared/application'
 import routes from '../Routes'
@@ -19,7 +21,8 @@ const app = express()
 // SSR w/ shared state
 app.use(cors())
 app.use(express.static('public'))
-app.get('/favicon.ico', (req, res) => res.status(204))
+app.use(favicon(path.resolve('public', 'favicon.ico')))
+// app.get('/favicon.ico', (req, res) => res.status(204))
 app.get('*', (req, res, next) => {
   const activeRoute = routes.find(route => matchPath(req.url, route)) || {}
 

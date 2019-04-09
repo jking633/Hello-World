@@ -3,9 +3,11 @@ import { hydrate } from 'react-dom'
 import App from '../Shared/application'
 import { BrowserRouter } from 'react-router-dom'
 
+const element = document.getElementById('app')
+
 hydrate(
   <BrowserRouter>
     <App />
   </BrowserRouter>,
-  document.getElementById('app')
+  element
 )
