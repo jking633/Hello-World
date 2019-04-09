@@ -21,7 +21,7 @@ const server = {
   externals: [nodeExternals()],
   output: {
     path: __dirname,
-    filename: './build/server.js',
+    filename: './.build/server.js',
     publicPath: '/',
   },
   module: {

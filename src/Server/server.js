@@ -79,9 +79,11 @@ app.get('*', (req, res, next) => {
 // app.use(router)
 // app.use(express.static('./build'))
 
-app.listen(PORT, () => {
-  // SSR = Server Side Render
-  console.log(`SSR running on http://localhost:${PORT}`)
+app.listen(process.env.PORT || PORT || 3000, () => {
+  console.log(
+    '\x1b[35m%s\x1b[0m',
+    `Server is running at http://localhost:${process.env.PORT || 3000}`
+  )
 })
 
 /* Create an HTTP server to handle responses */

@@ -1,3 +1,18 @@
+const commonPreset = ['@babel/env', '@babel/react']
+
 module.exports = {
-  presets: ['@babel/env', '@babel/react'],
+  env: {
+    development: {
+      compact: false,
+      presets: [...commonPreset],
+    },
+    production: {
+      compact: true,
+      presets: [...commonPreset],
+    },
+    test: {
+      compact: false,
+      presets: [...commonPreset],
+    },
+  },
 }
