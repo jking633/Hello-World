@@ -52,15 +52,21 @@ function loadExternalScripts(window, srcArray) {
   })
 }
 
+/**
+ * Not terribly useful but left in as an instructional on how
+ * to create switch statement against an array
+ *
+ * Mostly not useful as we know that jsdom & puppteer will be
+ * Chromium
+ */
+
 function getBrowserId() {
   const aKeys = ['MSIE', 'Firefox', 'Safari', 'Chrome', 'Opera']
   const sUsrAg = navigator.userAgent
   let nIdx = aKeys.length - 1
 
   for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--)
-  // return nIdx
-  // console.log(nIdx)
-  switch (nIdx) {
+    switch (nIdx) {
     case 1:
       return 'MSIE'
       break
@@ -78,7 +84,7 @@ function getBrowserId() {
       break
     default:
       return 'jsdom'
-  }
+    }
 }
 
 module.exports = {

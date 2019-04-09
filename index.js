@@ -5,4 +5,4 @@
  * @returns {Response|Void} response object or void
  */
 
-require("./src/server.js");
+require('./src/index.js')
