@@ -1,8 +1,9 @@
 // Most basic test
+var url
+var altUrl
+
 describe('it all starts here', () => {
   beforeEach(() => {
-    let url
-    let altUrl
     window.location.assign = jest.fn()
   })
 

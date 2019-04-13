@@ -5,27 +5,22 @@ module.exports = async function() {
   //   JSDOM
   // } = jsdom
   // const dom = new JSDOM('<!DOCTYPE html><p>Hello world</p>')
-
   // let window
-
   // function copyProps(src, target) {
   //   Object.defineProperties(target, {
   //     ...Object.getOwnPropertyDescriptors(src),
   //     ...Object.getOwnPropertyDescriptors(target),
   //   })
   // }
-
   // beforeAll((done) => {
   //   window = new JSDOM(``, {
   //     runScripts: 'dangerously'
   //   }).window
-
   //   // const scriptEl = window.document.createElement('script')
   //   // scriptEl.textContent = srcFile
   //   // window.document.body.appendChild(scriptEl)
   //   done()
   // })
-
   // global.dom = dom
   // global.window = window
   // global.document = window.document
@@ -39,6 +34,5 @@ module.exports = async function() {
   //   clearTimeout(id)
   // }
   // copyProps(window, global)
-
-  console.log('jest env setup fired ...')
+  // console.log('jest env setup fired ...')
 }

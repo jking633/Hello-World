@@ -1,10 +1,11 @@
 // Most basic test
 const { getBrowserId, setLocProp } = require('../../../.jest/dom')
 
+let url
+let altUrl
+
 describe('it all starts here', () => {
   beforeEach(() => {
-    let url
-    let altUrl
     window.location.assign = jest.fn()
   })
 

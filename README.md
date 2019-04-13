@@ -17,6 +17,10 @@ I got a lot of ideas I want to have fun creating and sending out into the atmosp
 
 - Run `yarn lint`
 
+## Starting Dev Server
+
+- Run `yarn dev`
+
 ## Starting App
 
 - Run `yarn start`

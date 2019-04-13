@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 window.testCtx = {
   /**
    * Allows for setting `window.location` props within tests

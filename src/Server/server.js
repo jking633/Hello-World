@@ -26,11 +26,11 @@ app.use(favicon(path.resolve('public', 'favicon.ico')))
 app.get('*', (req, res, next) => {
   const activeRoute = routes.find(route => matchPath(req.url, route)) || {}
 
-  const promise = activeRoute.fetchInitialData
+  const render = activeRoute.fetchInitialData
     ? activeRoute.fetchInitialData(req.path)
     : Promise.resolve()
 
-  promise
+  render
     .then(data => {
       const context = { data }
 
@@ -39,14 +39,21 @@ app.get('*', (req, res, next) => {
           <App />
         </StaticRouter>
       )
-
+      // prettier-ignore
       res.send(`
       <!DOCTYPE html>
-      <html>
+      <html lang="en">
         <head>
           <title>SSR with RR</title>
-          <script src="/client.js" defer></script>
+          <meta charset="utf-8">
+          <style>
+            .fouc {
+              visibility: hidden;
+            }
+          </style>
+          ${process.env.NODE_ENV === 'production' ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'/styles/server.css\'>' : ''}
           <script>window.__INITIAL_DATA__ = ${serialize(data)}</script>
+          <script src="/client.js" defer></script>
         </head>
 
         <body>
