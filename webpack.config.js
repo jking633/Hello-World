@@ -3,26 +3,54 @@ const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+const app = [
+  'core-js/modules/es6.promise',
+  'core-js/modules/es6.array.iterator',
+  './src/Client/client.js',
+]
+
+// const entry = './src/entry.jsx';
+const outputPath = path.resolve('./public/js')
+const publicPath = '/js/'
+const resolve = {
+  extensions: ['.js', '.jsx', '.json', '.css', '.styl', '.scss'],
+}
+
 const client = {
+  devtool: 'source-map',
+  mode: process.env.NODE_ENV || 'development',
+  // devServer: {
+  //   contentBase: path.resolve(__dirname, 'src'),
+  //   compress: true,
+  //   port: 3000,
+  //   hot: true,
+  //   historyApiFallback: true,
+  // },
   // prettier-ignore
-  entry: [
-    'core-js/modules/es6.promise',
-    'core-js/modules/es6.array.iterator',
-    './src/Client/client.js',
-  ],
+  entry: {
+    app,
+  },
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'client.js',
-    publicPath: '/',
+    path: outputPath,
+    filename: '[name].client.bundle.js',
+    publicPath,
   },
   module: {
     rules: [
       {
         test: /\.(js)$/,
-        use: 'babel-loader',
-        // query: {
-        //   presets: ['stage-0']
-        // }
+        use: {
+          loader: 'babel-loader',
+          // include: [path.resolve('./src')],
+          // exclude: path.resolve(__dirname, './node_modules'),
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: [
+              ['dynamic-import-webpack'],
+              ['@babel/plugin-proposal-export-default-from'],
+            ],
+          },
+        },
       },
       {
         test: /\.(jpe?g|png|gif)\??.*$/,
@@ -36,49 +64,74 @@ const client = {
         test: /\.(ttf|eot|woff|woff2|svg)$/,
         loader: 'url-loader?limit=50000&name=fonts/[hash].[ext]',
       },
-      {
-        test: /(\.css|\.styl)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'stylus-loader'],
-        exclude: path.resolve(__dirname, './node_modules'),
-      },
+      // {
+      //   test: /(\.css|\.styl)$/,
+      //   use: [
+      //     MiniCssExtractPlugin.loader,
+      //     {
+      //       loader: 'css-loader',
+      //       options: {
+      //         modules: true,
+      //         sourceMap: true,
+      //         importLoader: 2,
+      //       },
+      //     },
+      //     'stylus-loader',
+      //   ],
+      //   exclude: path.resolve(__dirname, './node_modules'),
+      // },
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: './public/client.css',
-      chunkFilename: './public/client_[id].css',
-      allChunks: true,
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: './public/styles/[name].css',
+    //   chunkFilename: './public/client_[id].css',
+    //   allChunks: true,
+    // }),
   ],
-  resolve: {
-    extensions: ['.js', '.json', '.styl'],
-    // mainFields: ['module', 'browser', 'main']
-  },
+  resolve,
   target: 'web',
 }
 
 const server = {
   // prettier-ignore
-  entry: [
-    'core-js/modules/es6.promise',
-    'core-js/modules/es6.array.iterator',
-    './index.js',
-  ],
+  entry: {
+    app,
+    // index: [
+    //   'core-js/modules/es6.promise',
+    //   'core-js/modules/es6.array.iterator',
+    //   './index.js',
+    // ],
+  },
   target: 'node',
   externals: [nodeExternals()],
+  // output: {
+  //   path: __dirname,
+  //   filename: './.build/server.js',
+  //   publicPath: '/',
+  // },
   output: {
-    path: __dirname,
-    filename: './.build/server.js',
-    publicPath: '/',
+    path: outputPath,
+    filename: '[name].server.bundle.js',
+    libraryTarget: 'commonjs2',
+    publicPath,
   },
   module: {
     rules: [
       {
         test: /\.(js)$/,
-        use: 'babel-loader',
-        // query: {
-        //   presets: ['stage-0']
-        // }
+        use: {
+          loader: 'babel-loader',
+          // include: [path.resolve('./src')],
+          // exclude: path.resolve(__dirname, './node_modules'),
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: [
+              ['dynamic-import-node'],
+              ['@babel/plugin-proposal-export-default-from'],
+            ],
+          },
+        },
       },
       {
         test: /\.(jpe?g|png|gif)\??.*$/,
@@ -92,24 +145,32 @@ const server = {
         test: /\.(ttf|eot|woff|woff2|svg)$/,
         loader: 'url-loader?limit=50000&name=fonts/[hash].[ext]',
       },
-      {
-        test: /(\.css|\.styl)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'stylus-loader'],
-        exclude: path.resolve(__dirname, './node_modules'),
-      },
+      // {
+      //   test: /(\.css|\.styl)$/,
+      //   use: [
+      //     MiniCssExtractPlugin.loader,
+      //     {
+      //       loader: 'css-loader',
+      //       options: {
+      //         modules: true,
+      //         sourceMap: true,
+      //         importLoader: 2,
+      //       },
+      //     },
+      //     'stylus-loader',
+      //   ],
+      //   exclude: path.resolve(__dirname, './node_modules'),
+      // },
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: './public/style.css',
-      chunkFilename: './public/style_[id].css',
-      allChunks: true,
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: './public/styles/[name].css',
+    //   chunkFilename: './public/client_[id].css',
+    //   allChunks: true,
+    // }),
   ],
-  resolve: {
-    extensions: ['.js', '.json', '.styl'],
-    // mainFields: ['module', 'browser', 'main']
-  },
+  resolve,
   target: 'node',
 }
 

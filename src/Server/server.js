@@ -12,7 +12,7 @@ import express from 'express'
 // import mcache from 'memory-cache'
 import favicon from 'serve-favicon'
 import serialize from 'serialize-javascript'
-import App from '../Shared/application'
+import App from '../../dist/app.server.bundle'
 import routes from '../Routes'
 
 const PORT = 3000
@@ -20,6 +20,8 @@ const app = express()
 
 // SSR w/ shared state
 app.use(cors())
+app.use('/dist', express.static(`${__dirname}/dist`))
+app.use('/css', express.static(`${__dirname}/css`))
 app.use(express.static('public'))
 app.use(favicon(path.resolve('public', 'favicon.ico')))
 // app.get('/favicon.ico', (req, res) => res.status(204))
@@ -53,7 +55,7 @@ app.get('*', (req, res, next) => {
           </style>
           ${process.env.NODE_ENV === 'production' ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'/styles/server.css\'>' : ''}
           <script>window.__INITIAL_DATA__ = ${serialize(data)}</script>
-          <script src="/client.js" defer></script>
+          <script src="dist/app.server.bundle.js" defer></script>
         </head>
 
         <body>

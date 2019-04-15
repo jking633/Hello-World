@@ -5,20 +5,22 @@ const commonPresets = [
       targets: {
         node: 'current',
       },
+      modules: false,
     },
   ],
   '@babel/react',
 ]
 
 const commonPlugins = [
-  [
-    '@babel/plugin-transform-runtime',
-    {
-      // polyfill: false, // no longer needed with Babel 7
-      regenerator: true,
-    },
-  ],
-  ['@babel/plugin-proposal-export-default-from'],
+  // [
+  //   '@babel/plugin-transform-runtime',
+  //   {
+  //     // polyfill: false, // no longer needed with Babel 7
+  //     regenerator: true,
+  //   },
+  // ],
+  // ['@babel/plugin-proposal-export-default-from'],
+  // ['@babel/plugin-syntax-dynamic-import'],
 ]
 
 module.exports = {
