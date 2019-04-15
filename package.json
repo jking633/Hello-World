@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode development --config ./webpack.config.js",
     "build:prod": "webpack --mode production --display-max-modules 0",
-    "clean": "rimraf ./.build/*{.js,.map} && rimraf ./dist && rimraf ./public/*{.js,.map} && rimraf ./public/styles/*{.css,.map} && rimraf ./public/images/*",
+    "clean": "rimraf ./.build/*{.js,.map} && rimraf ./dist && rimraf ./public/js/*{.js,.map} && rimraf ./public/styles/*{.css,.map} && rimraf ./public/images/*",
     "dev": "BABEL_ENV=development NODE_ENV=development run-s webpack -w --debug --display-max-modules 0 --mode development nodemon ./src/Server/index.js --inspect=9229",
     "prod": "BABEL_ENV=production NODE_ENV=production node ./src/Server/index.js",
     "lint": "eslint --fix 'tests/**/*.js' 'src/**/*.js' '.jest/**/*.js'",

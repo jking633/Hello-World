@@ -4,8 +4,8 @@ const nodeExternals = require('webpack-node-externals')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const app = [
-  // 'core-js/modules/es6.promise',
-  // 'core-js/modules/es6.array.iterator',
+  'core-js/modules/es6.promise',
+  'core-js/modules/es6.array.iterator',
   './src/Client/client.js',
 ]
 
@@ -39,10 +39,10 @@ const client = {
     rules: [
       {
         test: /\.(js)$/,
+        include: [path.resolve('./src')],
+        exclude: path.resolve(__dirname, './node_modules'),
         use: {
           loader: 'babel-loader',
-          // include: [path.resolve('./src')],
-          // exclude: path.resolve(__dirname, './node_modules'),
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
@@ -91,6 +91,7 @@ const client = {
   ],
   resolve,
   target: 'web',
+  // externals: [nodeExternals()],
 }
 
 const server = {
@@ -103,7 +104,6 @@ const server = {
     //   './index.js',
     // ],
   },
-  // externals: [nodeExternals()],
   // output: {
   //   path: __dirname,
   //   filename: './.build/server.js',
@@ -119,10 +119,10 @@ const server = {
     rules: [
       {
         test: /\.(js)$/,
+        include: [path.resolve('./src')],
+        exclude: path.resolve(__dirname, './node_modules'),
         use: {
           loader: 'babel-loader',
-          // include: [path.resolve('./src')],
-          // exclude: path.resolve(__dirname, './node_modules'),
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
@@ -171,6 +171,7 @@ const server = {
   ],
   resolve,
   target: 'node',
+  externals: [nodeExternals()],
 }
 
 module.exports = [client, server]
