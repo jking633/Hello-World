@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode development --config ./webpack.config.js",
     "build:prod": "webpack --mode production --display-max-modules 0",
-    "clean": "rimraf ./.build/*{.js,.map} && rimraf ./dist && rimraf ./public/*{.js,.map} && rimraf ./public/styles/*{.css,.map} && rimraf ./public/images/*",
+    "clean": "rimraf ./.build/*{.js,.map} && rimraf ./dist && rimraf ./public/js/*{.js,.map} && rimraf ./public/styles/*{.css,.map} && rimraf ./public/images/*",
     "dev": "BABEL_ENV=development NODE_ENV=development run-s webpack -w --debug --display-max-modules 0 --mode development nodemon ./src/Server/index.js --inspect=9229",
     "prod": "BABEL_ENV=production NODE_ENV=production node ./src/Server/index.js",
     "lint": "eslint --fix 'tests/**/*.js' 'src/**/*.js' '.jest/**/*.js'",
@@ -39,11 +39,14 @@
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "intl": "^1.2.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-hot-loader": "^4.8.3",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "url-polyfill": "^1.1.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",

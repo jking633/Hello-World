@@ -16,6 +16,37 @@ const resolve = {
   extensions: ['.js', '.jsx', '.json', '.css', '.styl', '.scss'],
 }
 
+const optimization = {
+  runtimeChunk: 'single',
+  splitChunks: {
+    chunks: 'all',
+    maxInitialRequests: Infinity,
+    minSize: 0,
+    cacheGroups: {
+      vendor: {
+        test: /[\\/]node_modules[\\/]/,
+        name(module) {
+          // get the name. E.g. node_modules/packageName/not/this/part.js
+          // or node_modules/packageName
+          // prettier-ignore
+          const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+
+          // npm package names are URL-safe, but some servers don't like @ symbols
+          return `npm.${packageName.replace('@', '')}`
+        },
+      },
+      styles: {
+        name: 'styles',
+        test: /\.s?css$/,
+        chunks: 'all',
+        minChunks: 1,
+        reuseExistingChunk: true,
+        enforce: true,
+      },
+    },
+  },
+}
+
 const client = {
   devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
@@ -35,14 +66,15 @@ const client = {
     filename: '[name].client.bundle.js',
     publicPath,
   },
+  // optimization,
   module: {
     rules: [
       {
         test: /\.(js)$/,
+        exclude: /(node_modules|bower_components)/,
+        include: [path.resolve('./src')],
         use: {
           loader: 'babel-loader',
-          // include: [path.resolve('./src')],
-          // exclude: path.resolve(__dirname, './node_modules'),
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
@@ -83,6 +115,7 @@ const client = {
     ],
   },
   plugins: [
+    // new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     // new MiniCssExtractPlugin({
     //   filename: './public/styles/[name].css',
     //   chunkFilename: './public/client_[id].css',
@@ -91,6 +124,7 @@ const client = {
   ],
   resolve,
   target: 'web',
+  // externals: [nodeExternals()],
 }
 
 const server = {
@@ -103,8 +137,6 @@ const server = {
     //   './index.js',
     // ],
   },
-  target: 'node',
-  externals: [nodeExternals()],
   // output: {
   //   path: __dirname,
   //   filename: './.build/server.js',
@@ -116,14 +148,15 @@ const server = {
     libraryTarget: 'commonjs2',
     publicPath,
   },
+  // optimization,
   module: {
     rules: [
       {
         test: /\.(js)$/,
+        include: [path.resolve('./src')],
+        exclude: path.resolve(__dirname, './node_modules'),
         use: {
           loader: 'babel-loader',
-          // include: [path.resolve('./src')],
-          // exclude: path.resolve(__dirname, './node_modules'),
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
@@ -172,6 +205,7 @@ const server = {
   ],
   resolve,
   target: 'node',
+  // externals: [nodeExternals()],
 }
 
 module.exports = [client, server]
