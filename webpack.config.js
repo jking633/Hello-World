@@ -4,8 +4,8 @@ const nodeExternals = require('webpack-node-externals')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const app = [
-  'core-js/modules/es6.promise',
-  'core-js/modules/es6.array.iterator',
+  // 'core-js/modules/es6.promise',
+  // 'core-js/modules/es6.array.iterator',
   './src/Client/client.js',
 ]
 
@@ -103,8 +103,7 @@ const server = {
     //   './index.js',
     // ],
   },
-  target: 'node',
-  externals: [nodeExternals()],
+  // externals: [nodeExternals()],
   // output: {
   //   path: __dirname,
   //   filename: './.build/server.js',
