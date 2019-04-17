@@ -22,6 +22,7 @@
     "build-storybook": "BABEL_ENV=storybook build-storybook",
     "devServer": "NODE_ENV=development webpack-dev-server --mode development --hot --inline --color"
   },
+  "proxy": "http://localhost:3000",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jking633/hello-world.git"

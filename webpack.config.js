@@ -10,7 +10,7 @@ const app = [
   // './src/Client/client.js',
 ]
 
-const outputPath = path.resolve(__dirname, 'dist')
+const outputPath = path.resolve(__dirname, 'public/js')
 const publicPath = '/'
 const resolve = {
   extensions: ['.js', '.jsx', '.json', '.css', '.styl', '.scss'],
@@ -20,7 +20,7 @@ const client = {
   devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname, ''),
     compress: true,
     port: 3000,
     hot: true,
