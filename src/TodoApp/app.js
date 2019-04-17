@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { renderRoutes } from 'react-router-config'
 import TodoFooter from './footer'
 import utils from './utils'
 
 const ENTER_KEY = 13
 
-class TodoApp extends React.Component {
+class TodoApp extends Component {
   constructor(props) {
     super(props)
 
@@ -14,6 +14,8 @@ class TodoApp extends React.Component {
       newTodo: '',
       todos: props.todos,
     }
+
+    this.toggleAll = this.toggleAll.bind(this)
   }
 
   handleChange(event) {
@@ -42,7 +44,7 @@ class TodoApp extends React.Component {
   }
 
   toggleAll(event) {
-    const { checked } = event.target
+    const { checked } = event.target.checked
     this.setState({
       todos: this.state.todos.map(todo =>
         Object.assign({}, todo, { completed: checked })
@@ -129,7 +131,7 @@ class TodoApp extends React.Component {
             className="toggle-all"
             type="checkbox"
             onChange={this.toggleAll}
-            checked={activeTodoCount === 0}
+            value={activeTodoCount === 0}
           />
           <ul className="todo-list">
             {renderRoutes(this.props.route.routes, {

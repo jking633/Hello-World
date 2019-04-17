@@ -6,12 +6,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const app = [
   'core-js/modules/es6.promise',
   'core-js/modules/es6.array.iterator',
-  './src/Client/client.js',
+  './src/TodoApp/entry.js',
+  // './src/Client/client.js',
 ]
 
-// const entry = './src/entry.jsx';
-const outputPath = path.resolve('./public/js')
-const publicPath = '/js/'
+const outputPath = path.resolve(__dirname, 'dist')
+const publicPath = '/'
 const resolve = {
   extensions: ['.js', '.jsx', '.json', '.css', '.styl', '.scss'],
 }
@@ -19,16 +19,22 @@ const resolve = {
 const client = {
   devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    compress: true,
+    port: 3000,
+    hot: true,
+    historyApiFallback: true,
+  },
   // devServer: {
-  //   contentBase: path.resolve(__dirname, 'src'),
-  //   compress: true,
-  //   port: 3000,
-  //   hot: true,
-  //   historyApiFallback: true,
+  //   contentBase: path.resolve(__dirname, 'public'),
   // },
   // prettier-ignore
   entry: {
-    app,
+    app: [
+      'react-hot-loader/patch',
+      ...app,
+    ],
   },
   output: {
     path: outputPath,
@@ -40,7 +46,7 @@ const client = {
       {
         test: /\.(js)$/,
         include: [path.resolve('./src')],
-        exclude: path.resolve(__dirname, './node_modules'),
+        exclude: path.resolve(__dirname, 'node_modules'),
         use: {
           loader: 'babel-loader',
           options: {
@@ -97,7 +103,9 @@ const client = {
 const server = {
   // prettier-ignore
   entry: {
-    app,
+    app: [
+      ...app,
+    ],
     // index: [
     //   'core-js/modules/es6.promise',
     //   'core-js/modules/es6.array.iterator',

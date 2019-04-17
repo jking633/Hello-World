@@ -5,6 +5,7 @@ const favicon = require('serve-favicon')
 const express = require('express')
 const ReactDOMServer = require('react-dom/server')
 const App = require('../../public/js/app.server.bundle')
+const { developmentErrors, productionErrors } = require('../Utils')
 
 const PORT = 3000
 
@@ -32,9 +33,9 @@ var options = {
   index: false,
   maxAge: '1d',
   redirect: false,
-  setHeaders: function (res, path, stat) {
+  setHeaders: function(res, path, stat) {
     res.set('x-timestamp', Date.now())
-  }
+  },
 }
 
 app.use(express.static('public', options))
@@ -43,15 +44,26 @@ app.use(favicon(path.resolve('public', 'favicon.ico')))
 app.get('*', (req, res) => {
   const props = { todos }
 
-  App.default(req.url, props).then(reactComponent => {
-    const result = ReactDOMServer.renderToString(reactComponent)
-    const html = template
-      .replace('{{thing}}', result)
-      .replace('{{props}}', JSON.stringify(props))
-    res.send(html)
-    res.end()
-  })
+  App.default(req.url, props)
+    .then(reactComponent => {
+      const result = ReactDOMServer.renderToString(reactComponent)
+      const html = template
+        .replace('{{thing}}', result)
+        .replace('{{props}}', JSON.stringify(props))
+      res.send(html)
+      res.end()
+    })
+    .catch(err => console.error('Something broke', err))
 })
+
+// Otherwise this was a really bad error we didn't expect! Shoot eh
+if (app.get('env') === 'development') {
+  /* Development Error Handler - Prints stack trace */
+  app.use(developmentErrors)
+}
+
+// production error handler
+app.use(productionErrors)
 
 app.listen(process.env.PORT || PORT || 3000, () => {
   console.log(
