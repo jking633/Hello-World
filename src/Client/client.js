@@ -14,3 +14,5 @@ hydrate(
   </BrowserRouter>,
   element
 )
+
+module.hot.accept()

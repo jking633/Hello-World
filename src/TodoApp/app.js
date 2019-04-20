@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root'
 import React, { Component } from 'react'
 import { renderRoutes } from 'react-router-config'
 import TodoFooter from './footer'
@@ -180,4 +181,4 @@ class TodoApp extends Component {
   }
 }
 
-export default TodoApp
+export default hot(TodoApp)

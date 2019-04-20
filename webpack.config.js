@@ -20,11 +20,12 @@ const client = {
   devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
   devServer: {
-    contentBase: path.resolve(__dirname, ''),
-    compress: true,
-    port: 3000,
+    // compress: true,
+    // contentBase: outputPath,
+    // historyApiFallback: true,
     hot: true,
-    historyApiFallback: true,
+    inline: true,
+    port: 3000,
   },
   // devServer: {
   //   contentBase: path.resolve(__dirname, 'public'),
@@ -52,6 +53,7 @@ const client = {
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
+              ['react-hot-loader/babel'],
               ['dynamic-import-webpack'],
               ['@babel/plugin-proposal-export-default-from'],
             ],
@@ -89,6 +91,7 @@ const client = {
     ],
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     // new MiniCssExtractPlugin({
     //   filename: './public/styles/[name].css',
     //   chunkFilename: './public/client_[id].css',

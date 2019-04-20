@@ -20,7 +20,7 @@
     "watch": "webpack --mode development --debug -w",
     "storybook": "BABEL_ENV=storybook start-storybook -p 6006",
     "build-storybook": "BABEL_ENV=storybook build-storybook",
-    "devServer": "NODE_ENV=development webpack-dev-server --mode development --hot --inline --color"
+    "devServer": "NODE_ENV=development webpack-dev-server --hot --history-api-fallback --open --debug --progress --env  --color"
   },
   "proxy": "http://localhost:3000",
   "repository": {
