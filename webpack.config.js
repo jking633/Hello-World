@@ -4,8 +4,8 @@ const nodeExternals = require('webpack-node-externals')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const app = [
-  'core-js/modules/es6.promise',
-  'core-js/modules/es6.array.iterator',
+  // 'core-js/modules/es6.promise',
+  // 'core-js/modules/es6.array.iterator',
   './src/Client/client.js',
 ]
 
@@ -66,7 +66,7 @@ const client = {
     filename: '[name].client.bundle.js',
     publicPath,
   },
-  // optimization,
+  optimization,
   module: {
     rules: [
       {
@@ -115,7 +115,7 @@ const client = {
     ],
   },
   plugins: [
-    // new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
+    new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     // new MiniCssExtractPlugin({
     //   filename: './public/styles/[name].css',
     //   chunkFilename: './public/client_[id].css',
@@ -205,7 +205,7 @@ const server = {
   ],
   resolve,
   target: 'node',
-  // externals: [nodeExternals()],
+  externals: [nodeExternals()],
 }
 
 module.exports = [client, server]

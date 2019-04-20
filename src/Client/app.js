@@ -110,6 +110,19 @@ class TodoApp extends React.Component {
     const completedCount = todos.length - activeTodoCount
 
     if (activeTodoCount || completedCount) {
+      // import(/* webpackChunkName: "TodoFooter" */ './footer').then(TodoFooter => {
+      //   return footer = (
+      //     <TodoFooter
+      //       count={activeTodoCount}
+      //       completedCount={completedCount}
+      //       nowShowing={this.props.location.pathname}
+      //       onClearCompleted={() => {
+      //         this.clearCompleted()
+      //       }}
+      //     />
+      //   )
+      // })
+
       footer = (
         <TodoFooter
           count={activeTodoCount}

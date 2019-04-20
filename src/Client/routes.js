@@ -10,25 +10,25 @@ export default [
         path: parentRoute => `${parentRoute}/`,
         exact: true,
         component: generateAsyncRouteComponent({
-          loader: () => import('./all-todos'),
+          loader: () => import(/* webpackChunkName: "[request]" */ './all-todos'),
         }),
       },
       {
         path: parentRoute => `${parentRoute}/all`,
         component: generateAsyncRouteComponent({
-          loader: () => import('./all-todos'),
+          loader: () => import(/* webpackChunkName: "all-todos" */ './all-todos'),
         }),
       },
       {
         path: parentRoute => `${parentRoute}/active`,
         component: generateAsyncRouteComponent({
-          loader: () => import('./active-todos'),
+          loader: () => import(/* webpackChunkName: "active-todos" */ './active-todos'),
         }),
       },
       {
         path: parentRoute => `${parentRoute}/completed`,
         component: generateAsyncRouteComponent({
-          loader: () => import('./completed-todos'),
+          loader: () => import(/* webpackChunkName: "completed-todos" */ './completed-todos'),
         }),
       },
     ],

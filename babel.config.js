@@ -20,7 +20,7 @@ const commonPlugins = [
   //   },
   // ],
   // ['@babel/plugin-proposal-export-default-from'],
-  // ['@babel/plugin-syntax-dynamic-import'],
+  ['syntax-dynamic-import'],
 ]
 
 module.exports = {
