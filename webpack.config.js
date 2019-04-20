@@ -6,11 +6,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const app = [
   // 'core-js/modules/es6.promise',
   // 'core-js/modules/es6.array.iterator',
-  './src/Client/client.js',
+  path.resolve(__dirname, 'src/Client/client.js'),
 ]
 
 // const entry = './src/entry.jsx';
-const outputPath = path.resolve('./public/js')
+const outputPath = path.resolve(__dirname, 'public/js')
 const publicPath = '/js/'
 const resolve = {
   extensions: ['.js', '.jsx', '.json', '.css', '.styl', '.scss'],
