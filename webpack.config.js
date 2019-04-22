@@ -2,10 +2,29 @@ const path = require('path')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const AssetsPlugin = require('assets-webpack-plugin')
+const assetsPluginInstance = new AssetsPlugin({
+  filename: 'assets.json',
+  fullPath: false,
+  path: path.resolve(__dirname, 'public'),
+  includeManifest: true,
+  manifestFirst: true,
+  useCompilerPath: true,
+  prettyPrint: true,
+  // processOutput: function(assets) {
+  //   return 'window.staticMap = ' + JSON.stringify(assets)
+  // },
+  update: true,
+  metadata: { version: 123 },
+  includeAllFileTypes: true,
+  keepInMemory: true,
+  integrity: true,
+  entrypoints: true,
+})
 
 const app = [
-  // 'core-js/modules/es6.promise',
-  // 'core-js/modules/es6.array.iterator',
+  'core-js/modules/es6.promise',
+  'core-js/modules/es6.array.iterator',
   path.resolve(__dirname, 'src/Client/client.js'),
 ]
 
@@ -17,38 +36,47 @@ const resolve = {
 }
 
 const optimization = {
-  runtimeChunk: 'single',
+  // runtimeChunk: 'single',
+  // splitChunks: {
+  //   chunks: 'all',
+  //   maxInitialRequests: Infinity,
+  //   minSize: 0,
+  //   cacheGroups: {
+  //     vendor: {
+  //       test: /[\\/]node_modules[\\/]/,
+  //       name(module) {
+  //         // get the name. E.g. node_modules/packageName/not/this/part.js
+  //         // or node_modules/packageName
+  //         // prettier-ignore
+  //         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+
+  //         // npm package names are URL-safe, but some servers don't like @ symbols
+  //         return `npm.${packageName.replace('@', '')}`
+  //       },
+  //     },
+  //     styles: {
+  //       name: 'styles',
+  //       test: /\.s?css$/,
+  //       chunks: 'all',
+  //       minChunks: 1,
+  //       reuseExistingChunk: true,
+  //       enforce: true,
+  //     },
+  //   },
+  // },
   splitChunks: {
     chunks: 'all',
-    maxInitialRequests: Infinity,
-    minSize: 0,
     cacheGroups: {
       vendor: {
         test: /[\\/]node_modules[\\/]/,
-        name(module) {
-          // get the name. E.g. node_modules/packageName/not/this/part.js
-          // or node_modules/packageName
-          // prettier-ignore
-          const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
-
-          // npm package names are URL-safe, but some servers don't like @ symbols
-          return `npm.${packageName.replace('@', '')}`
-        },
-      },
-      styles: {
-        name: 'styles',
-        test: /\.s?css$/,
-        chunks: 'all',
-        minChunks: 1,
-        reuseExistingChunk: true,
-        enforce: true,
+        priority: -10,
       },
     },
   },
 }
 
 const client = {
-  devtool: 'source-map',
+  // devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
   // devServer: {
   //   contentBase: path.resolve(__dirname, 'src'),
@@ -62,8 +90,9 @@ const client = {
     app,
   },
   output: {
+    filename: '[name]_[hash].bundle.js',
+    // chunkFilename: '[name]-[chunkhash]-client-bundle.js',
     path: outputPath,
-    filename: '[name].client.bundle.js',
     publicPath,
   },
   optimization,
@@ -121,6 +150,7 @@ const client = {
     //   chunkFilename: './public/client_[id].css',
     //   allChunks: true,
     // }),
+    assetsPluginInstance,
   ],
   resolve,
   target: 'web',
@@ -143,10 +173,13 @@ const server = {
   //   publicPath: '/',
   // },
   output: {
-    path: outputPath,
     filename: '[name].server.bundle.js',
-    libraryTarget: 'commonjs2',
+    // Not working
+    // filename: '[name][chunkhash].server.bundle.js',
+    // chunkFilename: '[name][chunkhash].server.bundle.js',
+    path: outputPath,
     publicPath,
+    libraryTarget: 'commonjs2',
   },
   // optimization,
   module: {

@@ -4,14 +4,27 @@ const cors = require('cors')
 const favicon = require('serve-favicon')
 const express = require('express')
 const ReactDOMServer = require('react-dom/server')
-const App = require('../../public/js/app.server.bundle')
+const App = require('../../public/js/app.server.bundle') // Important - THIS IS THE APP
+// const assetsPath = require('../../public/js/assets.json')
+// const { assetScriptTags } = require('../Utils')
 
 const PORT = 3000
-
-const app = express()
 const template = fs.readFileSync('index.html', 'utf8') // stupid simple template.
 
-// console.log('contents', template)
+// prettier-ignore
+const assets = fs.readFile('./public/js/assets.json', 'utf8', (err, fileContents) => {
+  if (err) {
+    console.error(err)
+    return
+  }
+  try {
+    const { assetScriptTags } = require('../Utils')
+    const scripts = JSON.parse(fileContents)
+    return `${assetScriptTags(scripts)}` 
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 // prettier-ignore
 const todos = [
@@ -23,9 +36,7 @@ const todos = [
   { id: '63a871b2-0b6f-4422-9c35-304bc680a4b7', title: 'Profit.', completed: false },
 ]
 
-app.use(cors())
-
-var options = {
+const options = {
   dotfiles: 'ignore',
   etag: false,
   extensions: ['htm', 'html'],
@@ -37,8 +48,10 @@ var options = {
   },
 }
 
-app.use(express.static('public', options))
+const app = express()
 
+app.use(cors())
+app.use(express.static('public', options))
 app.use(favicon(path.resolve('public', 'favicon.ico')))
 app.get('*', (req, res) => {
   const props = { todos }
@@ -48,6 +61,7 @@ app.get('*', (req, res) => {
     const html = template
       .replace('{{thing}}', result)
       .replace('{{props}}', JSON.stringify(props))
+      .replace('{{scripts}}', JSON.stringify(assets))
     res.send(html)
     res.end()
   })

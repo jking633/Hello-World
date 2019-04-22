@@ -10,7 +10,7 @@ const routes = [
   },
   {
     path: '/popular/:id',
-    component: Grid,
+    component: Grid, // try import() here to get a named chunk and track it
     fetchInitialData: (path = '') => fetchPopularRepos(path.split('/').pop()),
   },
 ]

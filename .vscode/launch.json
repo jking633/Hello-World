@@ -5,7 +5,7 @@
   // https://code.visualstudio.com/docs/editor/variables-reference
   "version": "0.2.0",
   "configurations": [{
-      "name": "Debug Browse",
+      "name": "Debug Application",
       "type": "node",
       "request": "attach",
       "port": 9229
