@@ -4,27 +4,12 @@ const cors = require('cors')
 const favicon = require('serve-favicon')
 const express = require('express')
 const ReactDOMServer = require('react-dom/server')
+
 const App = require('../../public/js/app.server.bundle') // Important - THIS IS THE APP
-// const assetsPath = require('../../public/js/assets.json')
-// const { assetScriptTags } = require('../Utils')
-
-const PORT = 3000
+const webpackAssets = require('../../public/js/assets.json')
+const { buildsTags } = require('../Utils')
 const template = fs.readFileSync('index.html', 'utf8') // stupid simple template.
-
-// prettier-ignore
-const assets = fs.readFile('./public/js/assets.json', 'utf8', (err, fileContents) => {
-  if (err) {
-    console.error(err)
-    return
-  }
-  try {
-    const { assetScriptTags } = require('../Utils')
-    const scripts = JSON.parse(fileContents)
-    return `${assetScriptTags(scripts)}` 
-  } catch (error) {
-    console.error(error)
-  }
-})
+const PORT = 3000
 
 // prettier-ignore
 const todos = [
@@ -54,14 +39,16 @@ app.use(cors())
 app.use(express.static('public', options))
 app.use(favicon(path.resolve('public', 'favicon.ico')))
 app.get('*', (req, res) => {
+  // Convert assets into array for embedding into index.html
+  const scripts = buildsTags(webpackAssets) // should return a string
   const props = { todos }
 
   App.default(req.url, props).then(reactComponent => {
     const result = ReactDOMServer.renderToString(reactComponent)
     const html = template
+      .replace('{{scripts}}', scripts)
       .replace('{{thing}}', result)
       .replace('{{props}}', JSON.stringify(props))
-      .replace('{{scripts}}', JSON.stringify(assets))
     res.send(html)
     res.end()
   })

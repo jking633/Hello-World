@@ -2,20 +2,18 @@ function __isBrowser__() {
   return !!(typeof window !== 'undefined' && window.document)
 }
 
-function assetScriptTags(jsScripts) {
-  function scriptTag(jsScripts) {
-    return `<scipt src"${jsScripts.js}"></script>\n`
+function buildsTags(scripts) {
+  if (scripts === 'undefined' || typeof scripts !== 'object') return
+
+  try {
+    const entries = scripts.app.js
+    // prettier-ignore
+    return entries.map(
+      entry => `<script async src="js/${entry}"></script>`
+    ).join('\n', '')
+  } catch (error) {
+    console.error(error)
   }
-  // prettier-ignore
-  const paths = [
-    scriptTag(jsScripts['venddor~app']),
-    scriptTag(jsScripts.app),
-  ]
-
-  return paths
 }
 
-module.exports = {
-  __isBrowser__,
-  assetScriptTags,
-}
+module.exports = { __isBrowser__, buildsTags }

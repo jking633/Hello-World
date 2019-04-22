@@ -12,13 +12,13 @@ const commonPresets = [
 ]
 
 const commonPlugins = [
-  // [
-  //   '@babel/plugin-transform-runtime',
-  //   {
-  //     // polyfill: false, // no longer needed with Babel 7
-  //     regenerator: true,
-  //   },
-  // ],
+  [
+    '@babel/plugin-transform-runtime',
+    {
+      // polyfill: false, // no longer needed with Babel 7
+      regenerator: true,
+    },
+  ],
   // ['@babel/plugin-proposal-export-default-from'],
   ['syntax-dynamic-import'],
 ]
