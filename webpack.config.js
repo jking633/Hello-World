@@ -25,10 +25,10 @@ const assetsPluginInstance = new AssetsPlugin({
 const app = [
   'core-js/modules/es6.promise',
   'core-js/modules/es6.array.iterator',
+  // Todo App
   path.resolve(__dirname, 'src/Todo/entry.js'),
 ]
 
-// const entry = './src/entry.jsx';
 const outputPath = path.resolve(__dirname, 'public/js')
 const publicPath = '/js/'
 const resolve = {
@@ -36,43 +36,43 @@ const resolve = {
 }
 
 const optimization = {
-  // runtimeChunk: 'single',
-  // splitChunks: {
-  //   chunks: 'all',
-  //   maxInitialRequests: Infinity,
-  //   minSize: 0,
-  //   cacheGroups: {
-  //     vendor: {
-  //       test: /[\\/]node_modules[\\/]/,
-  //       name(module) {
-  //         // get the name. E.g. node_modules/packageName/not/this/part.js
-  //         // or node_modules/packageName
-  //         // prettier-ignore
-  //         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
-
-  //         // npm package names are URL-safe, but some servers don't like @ symbols
-  //         return `npm.${packageName.replace('@', '')}`
-  //       },
-  //     },
-  //     styles: {
-  //       name: 'styles',
-  //       test: /\.s?css$/,
-  //       chunks: 'all',
-  //       minChunks: 1,
-  //       reuseExistingChunk: true,
-  //       enforce: true,
-  //     },
-  //   },
-  // },
+  runtimeChunk: 'single',
   splitChunks: {
     chunks: 'all',
+    maxInitialRequests: Infinity,
+    minSize: 0,
     cacheGroups: {
       vendor: {
         test: /[\\/]node_modules[\\/]/,
-        priority: -10,
+        name(module) {
+          // get the name. E.g. node_modules/packageName/not/this/part.js
+          // or node_modules/packageName
+          // prettier-ignore
+          const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+
+          // npm package names are URL-safe, but some servers don't like @ symbols
+          return `npm.${packageName.replace('@', '')}`
+        },
+      },
+      styles: {
+        name: 'styles',
+        test: /\.s?css$/,
+        chunks: 'all',
+        minChunks: 1,
+        reuseExistingChunk: true,
+        enforce: true,
       },
     },
   },
+  // splitChunks: {
+  //   chunks: 'all',
+  //   cacheGroups: {
+  //     vendor: {
+  //       test: /[\\/]node_modules[\\/]/,
+  //       priority: -10,
+  //     },
+  //   },
+  // },
 }
 
 const client = {
