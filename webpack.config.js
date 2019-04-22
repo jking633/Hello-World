@@ -25,7 +25,7 @@ const assetsPluginInstance = new AssetsPlugin({
 const app = [
   'core-js/modules/es6.promise',
   'core-js/modules/es6.array.iterator',
-  path.resolve(__dirname, 'src/Client/client.js'),
+  path.resolve(__dirname, 'src/Todo/entry.js'),
 ]
 
 // const entry = './src/entry.jsx';
