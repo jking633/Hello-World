@@ -1,5 +1,5 @@
-import 'core-js/modules/es6.promise'
-import 'core-js/modules/es6.array.iterator'
+// import 'core-js/modules/es6.promise'
+// import 'core-js/modules/es6.array.iterator'
 
 import { BrowserRouter, StaticRouter } from 'react-router-dom'
 import { render } from 'react-dom'
@@ -10,28 +10,28 @@ import { convertCustomRouteConfig, ensureReady } from './helpers'
 
 const routeConfig = convertCustomRouteConfig(routes)
 
-if (typeof window !== 'undefined') {
-  ensureReady(routeConfig).then(() => {
-    const props = JSON.parse(document.getElementById('props').dataset.props)
-    // prettier-ignore
-    render(
-      (
-        <BrowserRouter>
-          { renderRoutes(routeConfig, props) }
-        </BrowserRouter>
-      ),
-      document.getElementsByClassName('todoapp')[0],
-    )
-  })
-}
+// if (typeof window !== 'undefined') {
+//   ensureReady(routeConfig).then(() => {
+//     const props = JSON.parse(document.getElementById('props').dataset.props)
+//     // prettier-ignore
+//     render(
+//       (
+//         <BrowserRouter>
+//           { renderRoutes(routeConfig, props) }
+//         </BrowserRouter>
+//       ),
+//       document.getElementsByClassName('todoapp')[0],
+//     )
+//   })
+// }
 
-export default function render2(location, props) {
-  return ensureReady(routeConfig, location).then(() => (
-    <StaticRouter context={{}} location={location}>
-      {renderRoutes(routeConfig, props)}
-    </StaticRouter>
-  ))
-}
+// export default function render2(location, props) {
+//   return ensureReady(routeConfig, location).then(() => (
+//     <StaticRouter context={{}} location={location}>
+//       {renderRoutes(routeConfig, props)}
+//     </StaticRouter>
+//   ))
+// }
 
 // import 'core-js/modules/es6.promise'
 // import 'core-js/modules/es6.array.iterator'
@@ -41,7 +41,7 @@ export default function render2(location, props) {
 // // import App from '../Shared/application'
 // // import { BrowserRouter } from 'react-router-dom'
 
-// // const element = document.getElementById('app')
+// const element = document.getElementById('app')
 
 // // hydrate(
 // //   <BrowserRouter>
@@ -81,40 +81,51 @@ export default function render2(location, props) {
 //   )
 // }
 
-// // Hot-reloading
-// if (module.hot) {
-//   module.hot.accept()
-// }
+// Hot-reloading
+if (module.hot) {
+  module.hot.accept()
+}
 
-// if (typeof window !== 'undefined') {
-//   ensureReady(routeConfig).then(() => {
-//     const props = JSON.parse(document.getElementById('props').dataset.props) // eslint-disable-line
+if (typeof window !== 'undefined') {
+  ensureReady(routeConfig).then(() => {
+    const props = JSON.parse(document.getElementById('props').dataset.props) // eslint-disable-line
+    const element = document.getElementsByClassName('todoapp')[0]
 
-//     if (
-//       'fetch' in window &&
-//       'Intl' in window &&
-//       'URL' in window &&
-//       'Map' in window &&
-//       'forEach' in NodeList.prototype &&
-//       'startsWith' in String.prototype &&
-//       'endsWith' in String.prototype &&
-//       'includes' in String.prototype &&
-//       'includes' in Array.prototype &&
-//       'assign' in Object &&
-//       'entries' in Object &&
-//       'keys' in Object
-//     ) {
-//       render()
-//     } else {
-//       import('./polyfills').then(render);
-//     }
-//   })
-// }
+    if (
+      'fetch' in window &&
+      'Intl' in window &&
+      'URL' in window &&
+      'Map' in window &&
+      'forEach' in NodeList.prototype &&
+      'startsWith' in String.prototype &&
+      'endsWith' in String.prototype &&
+      'includes' in String.prototype &&
+      'includes' in Array.prototype &&
+      'assign' in Object &&
+      'entries' in Object &&
+      'keys' in Object
+    ) {
+      render(  
+        <BrowserRouter>
+          { renderRoutes(routeConfig, props) }
+        </BrowserRouter>,
+        element
+      )
+    } else {
+      import('./polyfills').then(render(
+        <BrowserRouter>
+          { renderRoutes(routeConfig, props) }
+        </BrowserRouter>,
+        element
+      ));
+    }
+  })
+}
 
-// export default function render2(location, props) {
-//   return ensureReady(routeConfig, location).then(() => (
-//     <StaticRouter context={{}} location={location}>
-//       {renderRoutes(routeConfig, props)}
-//     </StaticRouter>
-//   ))
-// }
+export default function render2(location, props) {
+  return ensureReady(routeConfig, location).then(() => (
+    <StaticRouter context={{}} location={location}>
+      {renderRoutes(routeConfig, props)}
+    </StaticRouter>
+  ))
+}
