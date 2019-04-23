@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { __isBrowser__ } from '../Utils'
+import { isBrowser } from '../Utils'
 
 class Grid extends Component {
   constructor(props) {
     super(props)
 
     let repos
-    if (__isBrowser__()) {
+    if (isBrowser()) {
       repos = window.__INITIAL_DATA__
       delete window.__INITIAL_DATA__
     } else {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Route, Link, Redirect, Switch } from 'react-router-dom'
 import routes from '../Routes'
-import Navbar from './Navbar'
-import NoMatch from './NoMatch'
+import Navbar from '../Shared/navbar'
+import NoMatch from '../Shared/nomatch'
 
 class App extends Component {
   render() {

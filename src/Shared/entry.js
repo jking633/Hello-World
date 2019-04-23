@@ -2,8 +2,8 @@ import { BrowserRouter, StaticRouter } from 'react-router-dom'
 import { hydrate } from 'react-dom'
 import React from 'react'
 import { renderRoutes } from 'react-router-config'
-import routes from './routes'
-import { convertCustomRouteConfig, ensureReady } from './helpers'
+import routes from '../Routes'
+import { convertCustomRouteConfig, ensureReady } from '../Helpers'
 
 const routeConfig = convertCustomRouteConfig(routes)
 
@@ -38,7 +38,7 @@ if (typeof window !== 'undefined') {
         element
       )
     } else {
-      import('./polyfills').then(hydrate(
+      import('../Shared/polyfills').then(hydrate(
         <BrowserRouter>
           { renderRoutes(routeConfig, props) }
         </BrowserRouter>,

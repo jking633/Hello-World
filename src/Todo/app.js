@@ -1,11 +1,11 @@
 import React from 'react'
 import { renderRoutes } from 'react-router-config'
 import TodoFooter from './footer'
-import utils from './utils'
+import { uuid } from '../Utils'
 
 const ENTER_KEY = 13
 
-class TodoApp extends React.Component {
+class Todo extends React.Component {
   constructor(props) {
     super(props)
 
@@ -32,7 +32,7 @@ class TodoApp extends React.Component {
     if (val) {
       this.setState({
         todos: this.state.todos.concat({
-          id: utils.uuid(),
+          id: uuid(),
           title: val,
           completed: false,
         }),
@@ -191,4 +191,4 @@ class TodoApp extends React.Component {
   }
 }
 
-export default TodoApp
+export default Todo

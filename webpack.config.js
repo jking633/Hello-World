@@ -25,8 +25,8 @@ const assetsPluginInstance = new AssetsPlugin({
 const app = [
   'core-js/modules/es6.promise',
   'core-js/modules/es6.array.iterator',
-  // Todo App
-  path.resolve(__dirname, 'src/Todo/entry.js'),
+  // App logic, ../Routes controls actual app loading
+  path.resolve(__dirname, 'src/Shared/entry.js'),
 ]
 
 const outputPath = path.resolve(__dirname, 'public/js')

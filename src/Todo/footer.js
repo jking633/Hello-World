@@ -1,11 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
-import utils from './utils'
+import { pluralize } from '../Utils'
 import enums from './enums'
 
 export default function Footer(props) {
-  const activeTodoWord = utils.pluralize(props.count, 'item')
+  const activeTodoWord = pluralize(props.count, 'item')
   const { nowShowing } = props
   return (
     <footer className="footer">
