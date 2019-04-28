@@ -25,6 +25,7 @@ const assetsPluginInstance = new AssetsPlugin({
 const app = [
   'core-js/modules/es6.promise',
   'core-js/modules/es6.array.iterator',
+  'react-hot-loader/patch',
   // App logic, ../Routes controls actual app loading
   path.resolve(__dirname, 'src/Shared/entry.js'),
 ]
@@ -64,15 +65,6 @@ const optimization = {
       },
     },
   },
-  // splitChunks: {
-  //   chunks: 'all',
-  //   cacheGroups: {
-  //     vendor: {
-  //       test: /[\\/]node_modules[\\/]/,
-  //       priority: -10,
-  //     },
-  //   },
-  // },
 }
 
 const client = {
@@ -90,8 +82,12 @@ const client = {
     app,
   },
   output: {
-    filename: '[name]_[hash].bundle.js',
-    // chunkFilename: '[name]-[chunkhash]-client-bundle.js',
+    filename: `[name].[${
+      process.env.NODE_ENV === 'production' ? 'chunkhash' : 'hash:8'
+    }].js`,
+    chunkFilename: `[name].[${
+      process.env.NODE_ENV === 'production' ? 'chunkhash' : 'hash:8'
+    }].js`,
     path: outputPath,
     publicPath,
   },
@@ -118,12 +114,12 @@ const client = {
         loader: 'url-loader',
         options: {
           limit: 1000,
-          name: 'public/images/[hash].[ext]',
+          name: 'public/images/[hash:8].[ext]',
         },
       },
       {
         test: /\.(ttf|eot|woff|woff2|svg)$/,
-        loader: 'url-loader?limit=50000&name=fonts/[hash].[ext]',
+        loader: 'url-loader?limit=50000&name=fonts/[hash:8].[ext]',
       },
       // {
       //   test: /(\.css|\.styl)$/,
@@ -204,12 +200,12 @@ const server = {
         loader: 'url-loader',
         options: {
           limit: 1000,
-          name: 'public/images/[hash].[ext]',
+          name: 'public/images/[hash:8].[ext]',
         },
       },
       {
         test: /\.(ttf|eot|woff|woff2|svg)$/,
-        loader: 'url-loader?limit=50000&name=fonts/[hash].[ext]',
+        loader: 'url-loader?limit=50000&name=fonts/[hash:8].[ext]',
       },
       // {
       //   test: /(\.css|\.styl)$/,

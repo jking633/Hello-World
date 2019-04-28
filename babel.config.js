@@ -28,7 +28,7 @@ module.exports = {
     development: {
       compact: false,
       presets: [...commonPresets],
-      plugins: [...commonPlugins],
+      plugins: [...commonPlugins, ['react-hot-loader/babel']],
     },
     production: {
       compact: true,
