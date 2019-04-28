@@ -1,23 +1,20 @@
+import { generateAsyncRouteComponent } from '../Helpers'
+import { fetchPopularRepos } from '../API'
+// Select App
+// import App from '../Github/app'
+import Todo from '../Todo/app'
+
+// 
 // import Home from '../Shared/home'
 // import Grid from '../Shared/grid'
-import { fetchPopularRepos } from '../API'
-import App from '../Github/app'
-import Todo from '../Todo/app'
-import Grid from '../Shared/grid'
-import { generateAsyncRouteComponent } from '../Helpers'
 
 export default [
   {
     path: parentRoute => `${parentRoute}/`,
+    // component: import(/* webpackChunkName: "index" */ '../Todo/app'),
     component: Todo,
     routes: [
-      {
-        path: parentRoute => `${parentRoute}/`,
-        exact: true,
-        component: generateAsyncRouteComponent({
-          loader: () => import(/* webpackChunkName: "[request]" */ '../Todo/all-todos'),
-        }),
-      },
+
       // {
       //   path: parentRoute => `${parentRoute}/`,
       //   exact: true,
@@ -25,13 +22,20 @@ export default [
       //     loader: () => import(/* webpackChunkName: "Home" */ '../Shared/home'),
       //   }),
       // },
+      // {
+      //   path: parentRoute => `${parentRoute}/popular/:id`,
+      //   component: Grid, // try import() here to get a named chunk and track it
+      //   // component: generateAsyncRouteComponent({
+      //   //   loader: () => import(/* webpackChunkName: "Grid" */ '../Shared/grid'),
+      //   // }),
+      //   fetchInitialData: (path = '') => fetchPopularRepos(path.split('/').pop()),
+      // },
       {
-        path: parentRoute => `${parentRoute}/popular/:id`,
-        component: Grid, // try import() here to get a named chunk and track it
-        // component: generateAsyncRouteComponent({
-        //   loader: () => import(/* webpackChunkName: "Grid" */ '../Shared/grid'),
-        // }),
-        fetchInitialData: (path = '') => fetchPopularRepos(path.split('/').pop()),
+        path: parentRoute => `${parentRoute}/`,
+        exact: true,
+        component: generateAsyncRouteComponent({
+          loader: () => import(/* webpackChunkName: "[request]" */ '../Todo/all-todos'),
+        }),
       },
       {
         path: parentRoute => `${parentRoute}/all`,
