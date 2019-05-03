@@ -29,11 +29,19 @@ const app = [
   // App logic, ../Routes controls actual app loading
   path.resolve(__dirname, 'src/Shared/entry.js'),
 ]
+const HASH_LENGTH = 8
+
+/* eslint-disable */
+const localName = (process.env.NODE_ENV === 'production')
+  ? `[local]_[hash:base65:5]`
+  : `[path]_[name]_[local]__[hash:base64:5]`
+/* eslint-enable */
 
 const outputPath = path.resolve(__dirname, 'public/js')
 const publicPath = '/js/'
 const resolve = {
   extensions: ['.js', '.jsx', '.json', '.css', '.styl', '.scss'],
+  modules: ['node_modules'],
 }
 
 const optimization = {
@@ -55,6 +63,29 @@ const optimization = {
           return `npm.${packageName.replace('@', '')}`
         },
       },
+
+      // vendor chunk
+      // vendor: {
+      //   // name of the chunk
+      //   name: 'vendor',
+      //   // async + async chunks
+      //   chunks: 'all',
+      //   // import file path containing node_modules
+      //   test: /node_modules/,
+      //   // priority
+      //   priority: 20,
+      // },
+
+      // common chunk
+      common: {
+        name: 'common',
+        minChunks: 2,
+        chunks: 'async',
+        priority: 10,
+        reuseExistingChunk: true,
+        enforce: true,
+      },
+
       styles: {
         name: 'styles',
         test: /\.s?css$/,
@@ -82,12 +113,10 @@ const client = {
     app,
   },
   output: {
-    filename: `[name].[${
-      process.env.NODE_ENV === 'production' ? 'chunkhash' : 'hash:8'
-    }].js`,
-    chunkFilename: `[name].[${
-      process.env.NODE_ENV === 'production' ? 'chunkhash' : 'hash:8'
-    }].js`,
+    // prettier-ignore
+    filename: `[name].js`, // [${process.env.NODE_ENV ==='production'?'chunkhash':'hash'}:${HASH_LENGTH}]
+    // prettier-ignore
+    chunkFilename: `[name].[${process.env.NODE_ENV ==='production'?'chunkhash':'hash'}:${HASH_LENGTH}].js`,
     path: outputPath,
     publicPath,
   },
@@ -140,13 +169,27 @@ const client = {
     ],
   },
   plugins: [
+    assetsPluginInstance,
     new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /brakes$/),
+    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedChunksPlugin(chunk => {
+    //   if (chunk.name) {
+    //     return chunk.name
+    //   } else {
+    //     // prettier-ignore
+    //     return chunk.modules.map(
+    //       m => path.relative(m.context, m.request)
+    //     ).join('_')
+
+    //     // console.log('chunks: ', JSON.stringify(chunk, null, 4))
+    //   }
+    // }),
     // new MiniCssExtractPlugin({
     //   filename: './public/styles/[name].css',
     //   chunkFilename: './public/client_[id].css',
     //   allChunks: true,
     // }),
-    assetsPluginInstance,
   ],
   resolve,
   target: 'web',
