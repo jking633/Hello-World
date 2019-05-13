@@ -9,7 +9,7 @@ export function buildsTags(scripts) {
     const entries = scripts.app.js
     // prettier-ignore
     return entries.map(
-      entry => `<script charset='utf-8' async src='js/${entry}'></script>`
+      entry => `<script charset='utf-8' async src='${entry}'></script>`
     ).join('\n', '')
   } catch (error) {
     console.error(error)

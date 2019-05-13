@@ -5,6 +5,6 @@ require('@babel/register')({
   presets: ['@babel/preset-env', '@babel/preset-react'],
 })
 
-// index = TodoApp (Code-Spliting, React Router Server Side Render)
-// server = RRSSR (React Router Server Side Rendered)
+// './Server/index' = TodoApp (Code-Spliting, React Router Server Side Render)
+// './Server/server' = RRSSR (React Router Server Side Rendered)
 require('./Server/index')

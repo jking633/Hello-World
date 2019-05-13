@@ -37,7 +37,24 @@ const localName = (process.env.NODE_ENV === 'production')
   : `[path]_[name]_[local]__[hash:base64:5]`
 /* eslint-enable */
 
-const outputPath = path.resolve(__dirname, 'public/js')
+// output: {
+//   // prettier-ignore
+//   filename: `[name].js`, // [${process.env.NODE_ENV ==='production'?'chunkhash':'hash'}:${HASH_LENGTH}]
+//   // prettier-ignore
+//   chunkFilename: `[name].[${process.env.NODE_ENV ==='production'?'chunkhash':'hash'}:${HASH_LENGTH}].js`,
+//   path: outputPath,
+//   publicPath,
+// },
+
+const outputPath = path.resolve(__dirname, 'public')
+
+const output = {
+  path: path.resolve(__dirname, './public'),
+  filename: '[name].js',
+  library: 'nike',
+  libraryTarget: 'umd',
+}
+
 const publicPath = '/js/'
 const resolve = {
   extensions: ['.js', '.jsx', '.json', '.css', '.styl', '.scss'],
@@ -112,14 +129,7 @@ const client = {
   entry: {
     app,
   },
-  output: {
-    // prettier-ignore
-    filename: `[name].js`, // [${process.env.NODE_ENV ==='production'?'chunkhash':'hash'}:${HASH_LENGTH}]
-    // prettier-ignore
-    chunkFilename: `[name].[${process.env.NODE_ENV ==='production'?'chunkhash':'hash'}:${HASH_LENGTH}].js`,
-    path: outputPath,
-    publicPath,
-  },
+  output,
   optimization,
   module: {
     rules: [

@@ -5,8 +5,8 @@ const favicon = require('serve-favicon')
 const express = require('express')
 const ReactDOMServer = require('react-dom/server')
 
-const App = require('../../public/js/app.server.bundle') // Important - THIS IS THE APP
-const webpackAssets = require('../../public/js/assets.json')
+const App = require('../../public/app.server.bundle') // Important - THIS IS THE APP
+const webpackAssets = require('../../public/assets.json')
 const { buildsTags } = require('../Utils')
 const template = fs.readFileSync('index.html', 'utf8') // stupid simple template.
 const PORT = 3000
