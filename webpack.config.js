@@ -1,26 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
-const assetsPluginInstance = new AssetsPlugin({
-  filename: 'assets.json',
-  fullPath: false,
-  path: path.resolve(__dirname, 'public'),
-  includeManifest: true,
-  manifestFirst: true,
-  useCompilerPath: true,
-  prettyPrint: true,
-  // processOutput: function(assets) {
-  //   return 'window.staticMap = ' + JSON.stringify(assets)
-  // },
-  update: true,
-  metadata: { version: 123 },
-  includeAllFileTypes: true,
-  keepInMemory: true,
-  integrity: true,
-  entrypoints: true,
-})
 
 const app = [
   'core-js/modules/es6.promise',
@@ -116,7 +98,7 @@ const optimization = {
 }
 
 const client = {
-  // devtool: 'source-map',
+  devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
   // devServer: {
   //   contentBase: path.resolve(__dirname, 'src'),
@@ -179,22 +161,41 @@ const client = {
     ],
   },
   plugins: [
-    assetsPluginInstance,
+    new AssetsPlugin({
+      filename: 'assets.json',
+      fullPath: false,
+      path: path.resolve(__dirname, 'public'),
+      includeManifest: true,
+      manifestFirst: true,
+      useCompilerPath: true,
+      prettyPrint: true,
+      // processOutput: function(assets) {
+      //   return 'window.staticMap = ' + JSON.stringify(assets)
+      // },
+      update: true,
+      metadata: { version: 123 },
+      includeAllFileTypes: true,
+      // keepInMemory: true,
+      integrity: true,
+      entrypoints: true,
+    }),
     new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /brakes$/),
-    new webpack.NamedModulesPlugin(),
-    // new webpack.NamedChunksPlugin(chunk => {
-    //   if (chunk.name) {
-    //     return chunk.name
-    //   } else {
-    //     // prettier-ignore
-    //     return chunk.modules.map(
-    //       m => path.relative(m.context, m.request)
-    //     ).join('_')
+    /**
+     * Ensures chunks from dynamic imports use the chunk name that's specified.
+     */
+    new webpack.NamedChunksPlugin(chunk => {
+      if (chunk.name) return chunk.name
 
-    //     // console.log('chunks: ', JSON.stringify(chunk, null, 4))
-    //   }
-    // }),
+      console.log('chunks: ', JSON.stringify(chunk, null, 4))
+
+      const mods = Array.isArray(chunk.modules)
+        ? chunk.modules.map(m => path.relative(m.context, m.request)).join('_')
+        : console.log('This was not an array or Node did not accept the type')
+
+      return mods
+    }),
+
     // new MiniCssExtractPlugin({
     //   filename: './public/styles/[name].css',
     //   chunkFilename: './public/client_[id].css',

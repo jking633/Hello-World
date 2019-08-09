@@ -58,3 +58,15 @@ export default [
     ],
   },
 ]
+
+/*
+const LazyHome = universal(() => import("./views/Home/Home"), {
+  resolve: () => require.resolveWeak('./views/Home/Home'),
+  chunkName: 'views/Home/Home', // babel-plugin-dual-import automatically sets chunkName based on path
+})
+
+const LazyMissing = universal(() => import("./views/Missing/Missing"), {
+  resolve: () => require.resolveWeak('./views/Missing/Missing'),
+  chunkName: 'views/Missing/Missing', // babel-plugin-dual-import automatically sets chunkName based on path
+})
+*/
