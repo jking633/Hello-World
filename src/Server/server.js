@@ -12,7 +12,8 @@ import express from 'express'
 // import mcache from 'memory-cache'
 import favicon from 'serve-favicon'
 import serialize from 'serialize-javascript'
-import App from '../../dist/app.server.bundle'
+// import App from '../../dist/app.server.bundle'
+import App from '../../public/app.server.bundle'
 import routes from '../Routes'
 
 const PORT = 3000
@@ -27,7 +28,6 @@ app.use(favicon(path.resolve('public', 'favicon.ico')))
 // app.get('/favicon.ico', (req, res) => res.status(204))
 app.get('*', (req, res, next) => {
   const activeRoute = routes.find(route => matchPath(req.url, route)) || {}
-
   const render = activeRoute.fetchInitialData
     ? activeRoute.fetchInitialData(req.path)
     : Promise.resolve()
