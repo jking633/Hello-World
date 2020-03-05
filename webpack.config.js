@@ -37,6 +37,9 @@ const localName = (process.env.NODE_ENV === 'production')
   : `[path]_[name]_[local]__[hash:base64:5]`
 /* eslint-enable */
 
+const outputPath = path.resolve(__dirname, 'public')
+const distPath = path.resolve(__dirname, '.dist')
+
 // output: {
 //   // prettier-ignore
 //   filename: `[name].js`, // [${process.env.NODE_ENV ==='production'?'chunkhash':'hash'}:${HASH_LENGTH}]
@@ -46,10 +49,9 @@ const localName = (process.env.NODE_ENV === 'production')
 //   publicPath,
 // },
 
-const outputPath = path.resolve(__dirname, 'public')
-
+// Client bundle(s) are here
 const output = {
-  path: path.resolve(__dirname, './public'),
+  path: path.resolve(__dirname, './public/js'),
   filename: '[name].js',
   library: 'nike',
   libraryTarget: 'umd',
@@ -226,10 +228,12 @@ const server = {
     // Not working
     // filename: '[name][chunkhash].server.bundle.js',
     // chunkFilename: '[name][chunkhash].server.bundle.js',
-    path: outputPath,
+    // path: outputPath,
+    path: distPath,
     publicPath,
     libraryTarget: 'commonjs2',
   },
+
   // optimization,
   module: {
     rules: [
@@ -290,4 +294,6 @@ const server = {
   externals: [nodeExternals()],
 }
 
+// module.exports = [client]
+// module.exports = [server]
 module.exports = [client, server]

@@ -1,0 +1,36 @@
+{
+  "app": {
+    "js": [
+      "runtime.js",
+      "npm.babel.js",
+      "npm.core-js.js",
+      "npm.react-router.js",
+      "npm.prop-types.js",
+      "npm.scheduler.js",
+      "npm.hoist-non-react-statics.js",
+      "npm.react-hot-loader.js",
+      "npm.create-react-context.js",
+      "npm.fbjs.js",
+      "npm.react-dom.js",
+      "npm.react-is.js",
+      "npm.react.js",
+      "npm.classnames.js",
+      "npm.gud.js",
+      "npm.history.js",
+      "npm.isomorphic-fetch.js",
+      "npm.object-assign.js",
+      "npm.react-router-config.js",
+      "npm.react-router-dom.js",
+      "npm.resolve-pathname.js",
+      "npm.tiny-invariant.js",
+      "npm.tiny-warning.js",
+      "npm.value-equal.js",
+      "npm.webpack.js",
+      "npm.whatwg-fetch.js",
+      "app.js"
+    ]
+  },
+  "metadata": {
+    "version": 123
+  }
+}

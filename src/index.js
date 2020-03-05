@@ -7,4 +7,9 @@ require('@babel/register')({
 
 // './Server/index' = TodoApp (Code-Spliting, React Router Server Side Render)
 // './Server/server' = RRSSR (React Router Server Side Rendered)
-require('./Server/index')
+
+// Working Todo App
+// require('./Server/index')
+
+// Non Working
+require('./Server/server')

@@ -12,7 +12,7 @@ import express from 'express'
 // import mcache from 'memory-cache'
 import favicon from 'serve-favicon'
 import serialize from 'serialize-javascript'
-import App from '../../dist/app.server.bundle'
+import App from '../../.dist/app.server.bundle.js'
 import routes from '../Routes'
 
 const PORT = 3000
@@ -22,11 +22,33 @@ const app = express()
 app.use(cors())
 app.use('/dist', express.static(`${__dirname}/dist`))
 app.use('/css', express.static(`${__dirname}/css`))
-app.use(express.static('public'))
+
+const options = {
+  dotfiles: 'ignore',
+  etag: false,
+  extensions: ['htm', 'html'],
+  index: false,
+  maxAge: '1d',
+  redirect: false,
+  setHeaders: function(res, path, stat) {
+    res.set('x-timestamp', Date.now())
+  },
+}
+
+// Setting with options
+app.use(express.static('public', options))
 app.use(favicon(path.resolve('public', 'favicon.ico')))
 // app.get('/favicon.ico', (req, res) => res.status(204))
+
+// PageControllerRoutes not defined
 app.get('*', (req, res, next) => {
+  console.log('routes: ', routes)
+  console.log('req.ur: ', req.url)
+  console.log('app: ', app)
+
   const activeRoute = routes.find(route => matchPath(req.url, route)) || {}
+
+  console.log('activeRoute: ', activeRoute)
 
   const render = activeRoute.fetchInitialData
     ? activeRoute.fetchInitialData(req.path)
@@ -55,7 +77,7 @@ app.get('*', (req, res, next) => {
           </style>
           ${process.env.NODE_ENV === 'production' ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'/styles/server.css\'>' : ''}
           <script>window.__INITIAL_DATA__ = ${serialize(data)}</script>
-          <script src="dist/app.server.bundle.js" defer></script>
+          <script src="js/app.js" defer></script>
         </head>
 
         <body>

@@ -5,7 +5,7 @@ const favicon = require('serve-favicon')
 const express = require('express')
 const ReactDOMServer = require('react-dom/server')
 
-const App = require('../../public/app.server.bundle') // Important - THIS IS THE APP
+const App = require('../../.dist/app.server.bundle') // Important - THIS IS THE APP
 const webpackAssets = require('../../public/assets.json')
 const { buildsTags } = require('../Utils')
 const template = fs.readFileSync('index.html', 'utf8') // stupid simple template.
@@ -38,16 +38,18 @@ const app = express()
 app.use(cors())
 app.use(express.static('public', options))
 app.use(favicon(path.resolve('public', 'favicon.ico')))
+
+// PageControllerRoutes not defined
 app.get('*', (req, res) => {
   // Convert assets into array for embedding into index.html
   const scripts = buildsTags(webpackAssets) // should return a string
   const props = { todos }
 
   App.default(req.url, props).then(reactComponent => {
-    const result = ReactDOMServer.renderToString(reactComponent)
+    const appString = ReactDOMServer.renderToString(reactComponent)
     const html = template
       .replace('{{scripts}}', scripts)
-      .replace('{{thing}}', result)
+      .replace('{{appString}}', appString)
       .replace('{{props}}', JSON.stringify(props))
     res.send(html)
     res.end()
