@@ -7,12 +7,14 @@ module.exports = {
     },
     // "extends": "eslint:recommended",
     "extends": "plugin:prettier/recommended",
+    parser: "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
         },
         "ecmaVersion": 2018,
-        "sourceType": "module"
+        "sourceType": "module",
+        allowImportExportEverywhere: true
     },
     "plugins": [
         "react"

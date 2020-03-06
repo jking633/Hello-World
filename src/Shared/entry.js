@@ -31,27 +31,25 @@ if (typeof window !== 'undefined') {
       'entries' in Object &&
       'keys' in Object
     ) {
-      hydrate(  
-        <BrowserRouter>
-          { renderRoutes(routeConfig, props) }
-        </BrowserRouter>,
+      hydrate(
+        <BrowserRouter>{renderRoutes(routeConfig, props)}</BrowserRouter>,
         element
       )
     } else {
-      import('../Shared/polyfills').then(hydrate(
-        <BrowserRouter>
-          { renderRoutes(routeConfig, props) }
-        </BrowserRouter>,
-        element
-      ));
+      import('../Shared/polyfills').then(
+        hydrate(
+          <BrowserRouter>{renderRoutes(routeConfig, props)}</BrowserRouter>,
+          element
+        )
+      )
     }
   })
 }
 
 export default function render2(location, props) {
   return ensureReady(routeConfig, location).then(() => (
-    <StaticRouter context={ {} } location={ location }>
-      { renderRoutes(routeConfig, props) }
+    <StaticRouter context={{}} location={location}>
+      {renderRoutes(routeConfig, props)}
     </StaticRouter>
   ))
 }

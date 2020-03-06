@@ -1,132 +1,71 @@
-/* Load the HTTP library */
-// const http = require('http')
-
-import path from 'path'
-import fs from 'fs'
-import cors from 'cors'
-
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { StaticRouter, matchPath } from 'react-router-dom'
+/* eslint-disable no-unused-vars */
+import '@babel/polyfill'
 import express from 'express'
-// import mcache from 'memory-cache'
-import favicon from 'serve-favicon'
-import serialize from 'serialize-javascript'
-import App from '../../.dist/app.server.bundle.js'
-import routes from '../Routes'
+import React from 'react'
+import { matchRoutes } from 'react-router-config'
+import compression from 'compression'
+import renderer from '../Helpers/renderer'
+import createStore from '../store/createStore'
+import Routes from '../client/Routes'
 
-const PORT = 3000
 const app = express()
 
-// SSR w/ shared state
-app.use(cors())
-app.use('/dist', express.static(`${__dirname}/dist`))
-app.use('/css', express.static(`${__dirname}/css`))
-
-const options = {
-  dotfiles: 'ignore',
-  etag: false,
-  extensions: ['htm', 'html'],
-  index: false,
-  maxAge: '1d',
-  redirect: false,
-  setHeaders: function(res, path, stat) {
-    res.set('x-timestamp', Date.now())
-  },
+function shouldCompress(req, res) {
+  if (req.headers['x-no-compression']) return false
+  return compression.filter(req, res)
 }
 
-// Setting with options
-app.use(express.static('public', options))
-app.use(favicon(path.resolve('public', 'favicon.ico')))
-// app.get('/favicon.ico', (req, res) => res.status(204))
+app.use(
+  compression({
+    level: 2, // set compression level from 1 to 9 (6 by default)
+    filter: shouldCompress, // set predicate to determine whether to compress
+  })
+)
 
-// PageControllerRoutes not defined
-app.get('*', (req, res, next) => {
-  console.log('routes: ', routes)
-  console.log('req.ur: ', req.url)
-  console.log('app: ', app)
+const port = process.env.PORT || 3000
 
-  const activeRoute = routes.find(route => matchPath(req.url, route)) || {}
+// To be able to serve static files
+app.use(express.static('public'))
 
-  console.log('activeRoute: ', activeRoute)
+app.get('*', (req, res) => {
+  const params = req.params[0].split('/')
+  const id = params[2]
+  // We create store before rendering html
+  const store = createStore()
+  // We pass store to renderer
 
-  const render = activeRoute.fetchInitialData
-    ? activeRoute.fetchInitialData(req.path)
-    : Promise.resolve()
+  // Checks the given path, matches with component and returns array of items about to be rendered
+  const routes = matchRoutes(Routes, req.path)
 
-  render
-    .then(data => {
-      const context = { data }
-
-      const markup = renderToString(
-        <StaticRouter location={req.url} context={context}>
-          <App />
-        </StaticRouter>
-      )
-      // prettier-ignore
-      res.send(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <title>SSR with RR</title>
-          <meta charset="utf-8">
-          <style>
-            .fouc {
-              visibility: hidden;
-            }
-          </style>
-          ${process.env.NODE_ENV === 'production' ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'/styles/server.css\'>' : ''}
-          <script>window.__INITIAL_DATA__ = ${serialize(data)}</script>
-          <script src="js/app.js" defer></script>
-        </head>
-
-        <body>
-          <div id="app">${markup}</div>
-        </body>
-      </html>
-    `)
+  // Execute all loadData functions inside given urls and wrap promises with new promises to be able to render pages all the time
+  // Even if we get an error while loading data, we will still attempt to render page.
+  const promises = routes
+    .map(({ route }) => {
+      // Manually dispatch a network request to pre-populate state tree
+      return route.loadData ? route.loadData(store, id) : null
     })
-    .catch(next)
+    .map(promise => {
+      if (promise) {
+        return new Promise((resolve, reject) => {
+          promise.then(resolve).catch(resolve)
+        })
+      }
+      return null
+    })
+
+  // Wait for all the loadData functions, if they are resolved, send the rendered html to browser.
+  Promise.all(promises).then(() => {
+    const context = {}
+    const content = renderer(req, store, context)
+
+    if (context.notFound) {
+      res.status(404)
+    }
+
+    res.send(content)
+  })
 })
 
-// Simple Server Side Render w/o shared state
-// const router = express.Router()
-// const serverRenderer = (req, res, next) => {
-//   fs.readFile(path.resolve('./.build/index.html'), 'utf8', (err, data) => {
-//     if (err) {
-//       console.error(err)
-//       return res.status(500).send('An error occurred')
-//     }
-//     return res.send(
-//       data.replace(
-//         '<div id="root"></div>',
-//         `<div id="root">${renderToString(<App />)}</div>`
-//       )
-//     )
-//   })
-// }
-// router.use('^/$', serverRenderer)
-// router.use(
-//   express.static(path.resolve(__dirname, '..', 'build'), { maxAge: '30d' })
-// )
-// tell the app to use the above rules
-// app.use(router)
-// app.use(express.static('./build'))
-
-app.listen(process.env.PORT || PORT || 3000, () => {
-  console.log(
-    '\x1b[35m%s\x1b[0m',
-    `Server is running at http://localhost:${process.env.PORT || 3000}`
-  )
+app.listen(port, () => {
+  console.log(`Listening on port: ${port}`)
 })
-
-/* Create an HTTP server to handle responses */
-// http
-//   .createServer(function(request, response) {
-//     response.writeHead(200, {
-//       'Content-Type': 'text/plain',
-//     })
-//     response.write('Hello World')
-//     response.end()
-//   })
-//   .listen(8888, console.log('Server running at http://localhost:8888/'))

@@ -1,10 +1,10 @@
 import { generateAsyncRouteComponent } from '../Helpers'
 import { fetchPopularRepos } from '../API'
+
 // Select App
 // import App from '../Github/app'
 import Todo from '../Todo/app'
 
-// 
 // import Home from '../Shared/home'
 // import Grid from '../Shared/grid'
 
@@ -14,7 +14,6 @@ export default [
     // component: import(/* webpackChunkName: "index" */ '../Todo/app'),
     component: Todo,
     routes: [
-
       // {
       //   path: parentRoute => `${parentRoute}/`,
       //   exact: true,
@@ -34,25 +33,29 @@ export default [
         path: parentRoute => `${parentRoute}/`,
         exact: true,
         component: generateAsyncRouteComponent({
-          loader: () => import(/* webpackChunkName: "[request]" */ '../Todo/all-todos'),
+          loader: () =>
+            import(/* webpackChunkName: "[request]" */ '../Todo/all-todos'),
         }),
       },
       {
         path: parentRoute => `${parentRoute}/all`,
         component: generateAsyncRouteComponent({
-          loader: () => import(/* webpackChunkName: "all-todos" */ '../Todo/all-todos'),
+          loader: () =>
+            import(/* webpackChunkName: "all-todos" */ '../Todo/all-todos'),
         }),
       },
       {
         path: parentRoute => `${parentRoute}/active`,
         component: generateAsyncRouteComponent({
-          loader: () => import(/* webpackChunkName: "active-todos" */ '../Todo/active-todos'),
+          loader: () =>
+            import(/* webpackChunkName: "active-todos" */ '../Todo/active-todos'),
         }),
       },
       {
         path: parentRoute => `${parentRoute}/completed`,
         component: generateAsyncRouteComponent({
-          loader: () => import(/* webpackChunkName: "completed-todos" */ '../Todo/completed-todos'),
+          loader: () =>
+            import(/* webpackChunkName: "completed-todos" */ '../Todo/completed-todos'),
         }),
       },
     ],
