@@ -1,6 +1,6 @@
-import { hot } from 'react-hot-loader/root'
-import React from 'react'
-import { renderRoutes } from 'react-router-config'
+import { hot } from './node_modules/react-hot-loader/root'
+import React from './node_modules/react'
+import { renderRoutes } from './node_modules/react-router-config'
 import TodoFooter from './footer'
 import { uuid } from '../Utils'
 

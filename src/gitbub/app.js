@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link, Redirect, Switch } from 'react-router-dom'
-import routes from '../Routes'
+import routes from '../routes'
 import Navbar from '../Shared/navbar'
 import NoMatch from '../Shared/nomatch'
 

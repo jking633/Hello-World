@@ -5,6 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const baseConfig = require('./webpack.base')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const config = {
   mode: 'production',
   stats: {
@@ -32,13 +33,16 @@ const config = {
       }),
     ],
   },
+
   // Tell webpack to root file of our server app
   entry: './src/client/client.js',
+
   // Tell webpack where to put output file
   output: {
-    filename: 'bundle.js',
+    filename: 'client-bundle.js',
     path: path.resolve(__dirname, '../public'),
   },
+
   devtool: 'inline-source-map',
   plugins: [
     // new BundleAnalyzerPlugin(),

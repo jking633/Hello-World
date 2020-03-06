@@ -1,6 +1,6 @@
-import React from 'react'
-import classNames from 'classnames'
-import { Link } from 'react-router-dom'
+import React from './node_modules/react'
+import classNames from './node_modules/classnames'
+import { Link } from './node_modules/react-router-dom'
 import { pluralize } from '../Utils'
 import enums from './enums'
 

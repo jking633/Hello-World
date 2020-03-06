@@ -4,12 +4,13 @@ const baseConfig = require('./webpack.base')
 
 const config = {
   mode: 'development',
+
   // Tell webpack to root file of our server app
   entry: './src/client/client.js',
 
   // Tell webpack where to put output file
   output: {
-    filename: 'bundle.js',
+    filename: 'client-bundle.js',
     path: path.resolve(__dirname, '../public'),
   },
   devtool: 'inline-source-map',

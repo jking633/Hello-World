@@ -1,6 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import classNames from 'classnames'
+import React from './node_modules/react'
+import ReactDOM from './node_modules/react-dom'
+import classNames from './node_modules/classnames'
 
 const ESCAPE_KEY = 27
 const ENTER_KEY = 13

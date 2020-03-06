@@ -1,7 +1,7 @@
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 import ArticleListPage from './pages/ArticleListPage'
-import App from './App'
+import App from './app'
 
 export default [
   {

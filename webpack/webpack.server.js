@@ -16,7 +16,7 @@ const config = {
   // Tell webpack where to put the output file
   // that is generated
   output: {
-    filename: 'bundle.js',
+    filename: 'server-bundle.js',
     path: path.resolve(__dirname, '../build'),
   },
 }

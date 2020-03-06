@@ -26,7 +26,7 @@
     "prebuild": "yarn clean && mkdir dist",
     "precommit": "pretty-quick --staged",
     "prestart": "yarn --frozen-lockfile",
-    "start": "node build/bundle.js",
+    "start:server": "nodemon build/server-bundle.js",
     "storybook": "BABEL_ENV=storybook start-storybook -p 6006",
     "test:watch": "jest --watch --env=jsdom --verbose",
     "test": "BABEL_ENV=test yarn lint && jest --no-watchman --env=jsdom",

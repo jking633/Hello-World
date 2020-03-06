@@ -11,5 +11,5 @@ require('@babel/register')({
 // Working Todo App
 // require('./Server/index')
 
-// Non Working
-require('./Server/server')
+// SSR News App
+require('./server/server')

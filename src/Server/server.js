@@ -5,9 +5,9 @@ import express from 'express'
 import React from 'react'
 import { matchRoutes } from 'react-router-config'
 import compression from 'compression'
-import renderer from '../Helpers/renderer'
+import renderer from '../helpers/renderer'
 import createStore from '../store/createStore'
-import Routes from '../client/Routes'
+import Routes from '../client/routes'
 
 const app = express()
 
