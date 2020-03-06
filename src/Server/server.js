@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 import '@babel/polyfill'
 import express from 'express'
 import React from 'react'
@@ -67,5 +68,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Listening on port: ${port}`)
+  console.log(`Server running at http://localhost:${port}`)
 })

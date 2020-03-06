@@ -45,14 +45,14 @@ const HomePage = props => {
   const head = () => {
     return (
       <Helmet key={Math.random()}>
-        <title>SSR Daily News - ilker ALTIN</title>
-        <meta property="og:title" content="SSR Daily News - ilker ALTIN" />
+        <title>Daily News</title>
+        <meta property="og:title" content="Daily News" />
         <meta
           name="description"
           content="Breaking news,latest articles, popular articles from most popular news websites of the world"
         />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://react-ssr-ilker.herokuapp.com" />
+        <link rel="canonical" href="http://localhost:3000" />
       </Helmet>
     )
   }
@@ -63,6 +63,7 @@ const HomePage = props => {
     window.scrollTo(0, 0)
     loadArticles()
   }, [loadArticles])
+
   return (
     <div>
       {head()}
