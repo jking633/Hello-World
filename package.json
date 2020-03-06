@@ -7,7 +7,7 @@
     "//": "MAKE SURE THAT THIS IS COMMONJS READY",
     "build-server": "webpack --config ./webpack/webpack.server.js",
     "build-storybook": "BABEL_ENV=storybook build-storybook",
-    "build:prod": "yarn clean && webpack  --config ./webpack/webpack.server.js && webpack -p --config ./webpack/webpack.client.prod.js --mode production",
+    "build:prod": "yarn clean && webpack --config ./webpack/webpack.server.js && webpack -p --config ./webpack/webpack.client.prod.js --mode production",
     "ci-postbuild": "npm install && npm run build:prod",
     "clean": "rm -rf build && rimraf ./.build/*{.js,.map} && rimraf ./dist && rimraf ./public/*{.js,.map} && rimraf ./public/styles/*{.css,.map} && rimraf ./public/images/*",
     "dev:build-client": "webpack --config ./webpack/webpack.client.js --watch",

@@ -57,7 +57,7 @@ const ArticleListPage = props => {
         <meta name="robots" content="index, follow" />
         <link
           rel="canonical"
-          href={`https://react-ssr-ilker.herokuapp.com${location.pathname}`}
+          href={`http://localhost:3000/${location.pathname}`}
         />
       </Helmet>
     )
@@ -71,6 +71,7 @@ const ArticleListPage = props => {
       loadArticles()
     }
   }, [loadArticles, match.params.id])
+
   return (
     <div>
       {head()}
