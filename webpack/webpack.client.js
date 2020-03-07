@@ -6,7 +6,7 @@ const config = {
   mode: 'development',
 
   // Tell webpack to root file of our server app
-  entry: './src/client/client.js',
+  entry: './src/client/news/client.js',
 
   // Tell webpack where to put output file
   output: {

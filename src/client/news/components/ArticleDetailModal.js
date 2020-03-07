@@ -2,22 +2,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const ArticleDetailModal = props => {
+  console.log('[ ARTICLE_DETAIL_MODAL ]: props ', props)
+  const modalStyle = {
+    display: 'block',
+    height: '95vh',
+    maxHeight: '95vh',
+    opacity: 1,
+    top: 10,
+    width: '95vw',
+    zIndex: 1003,
+  }
+
+  const styleOverlay = {
+    display: 'block',
+    opacity: 0.5,
+    zIndex: 1002,
+  }
+
   const { handler, data } = props
+
   return (
     <>
-      <div
-        id="modal1"
-        className="modal"
-        style={{
-          zIndex: 1003,
-          display: 'block',
-          opacity: 1,
-          top: 10,
-          width: '95vw',
-          height: '95vh',
-          maxHeight: '95vh',
-        }}
-      >
+      <div id="modal1" className="modal" style={modalStyle}>
         <div className="modal-footer">
           <button
             type="button"
@@ -53,7 +59,7 @@ const ArticleDetailModal = props => {
         role="presentation"
         onClick={handler}
         className="modal-overlay"
-        style={{ zIndex: 1002, display: 'block', opacity: 0.5 }}
+        style={styleOverlay}
       />
     </>
   )

@@ -11,7 +11,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { renderRoutes } from 'react-router-config'
 import reducers from './reducers'
-import Routes from './Routes'
+import Routes from '../routes'
 
 const state = window.__PRELOADED_STATE__
 delete window.__PRELOADED_STATE__

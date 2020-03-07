@@ -9,7 +9,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { fetchArticles } from '../actions'
 import ArticleDetailModal from '../components/ArticleDetailModal'
 
-const HomePage = props => {
+const ArticleListPage = props => {
+  console.log('[ ARTICLE_LIST_PAGE ] ', props)
   const [modal, setModal] = useState(false)
   const [currentArticle, setCurrentArticle] = useState({})
 
@@ -42,37 +43,45 @@ const HomePage = props => {
     ))
   }
 
+  const { articles, location, match } = props
+  const category = props && articles[0] && articles[0].source.name
+  const { fetchArticles: loadArticles } = props
   const head = () => {
     return (
       <Helmet key={Math.random()}>
-        <title>Daily News</title>
-        <meta property="og:title" content="Daily News" />
+        <title>{`${category} Articles`}</title>
+        <meta property="og:title" content={`${category} Articles List`} />
         <meta
           name="description"
-          content="Breaking news,latest articles, popular articles from most popular news websites of the world"
+          content={`Latest ${category} articles, popular articles from most popular news websites of the world`}
         />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="http://localhost:3000" />
+        <link
+          rel="canonical"
+          href={`http://localhost:3000/${location.pathname}`}
+        />
       </Helmet>
     )
   }
 
-  const { fetchArticles: loadArticles } = props
-
   useEffect(() => {
     window.scrollTo(0, 0)
-    loadArticles()
-  }, [loadArticles])
+    if (match.params.id) {
+      loadArticles(match.params.id)
+    } else {
+      loadArticles()
+    }
+  }, [loadArticles, match.params.id])
 
   return (
     <div>
       {head()}
       {modal ? (
         <ArticleDetailModal handler={closeModal} data={currentArticle} />
-      ) : null}{' '}
+      ) : null}
       <div className="row">
         <div className="section">
-          <h3>Popular Articles</h3>
+          <h3>{category}</h3>
         </div>
         <div className="divider" />
         <div className="section">
@@ -89,26 +98,30 @@ const mapStateToProps = state => {
   }
 }
 
-const loadData = store => {
+const loadData = (store, param) => {
   // For the connect tag we need Provider component but on the server at this moment app is not rendered yet
   // So we need to use store itself to load data
-  return store.dispatch(fetchArticles()) // Manually dispatch a network request
+  return store.dispatch(fetchArticles(param)) // Manually dispatch a network request
 }
 
-HomePage.propTypes = {
+ArticleListPage.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.any),
   fetchArticles: PropTypes.func,
+  location: PropTypes.objectOf(PropTypes.any),
+  match: PropTypes.objectOf(PropTypes.any),
 }
 
-HomePage.defaultProps = {
+ArticleListPage.defaultProps = {
   articles: [],
   fetchArticles: null,
+  location: null,
+  match: null,
 }
 
 export default {
   component: connect(
     mapStateToProps,
     { fetchArticles }
-  )(HomePage),
-  loadData, // passed function API - Manually dispatch a network request
+  )(ArticleListPage),
+  loadData,
 }

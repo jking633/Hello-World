@@ -1,7 +1,7 @@
-import HomePage from './pages/HomePage'
-import NotFoundPage from './pages/NotFoundPage'
-import ArticleListPage from './pages/ArticleListPage'
-import App from './app'
+import HomePage from './news/pages/HomePage'
+import NotFoundPage from './news/pages/NotFoundPage'
+import ArticleListPage from './news/pages/ArticleListPage'
+import App from './news/app'
 
 export default [
   {

@@ -38,6 +38,10 @@ app.get('*', (req, res) => {
   // Checks the given path, matches with component and returns array of items about to be rendered
   const routes = matchRoutes(Routes, req.path)
 
+  console.log('[ ROUTES ] ', Routes)
+  console.log('[ ROUTES ] ', routes)
+  console.log('[ ROUTES ] ', req.path)
+
   // Execute all loadData functions inside given urls and wrap promises with new promises to be able to render pages all the time
   // Even if we get an error while loading data, we will still attempt to render page.
   const promises = routes
@@ -58,7 +62,8 @@ app.get('*', (req, res) => {
   Promise.all(promises).then(() => {
     const context = {}
     const content = renderer(req, store, context)
-
+    console.log('[ REQUEST ] ', req.url)
+    console.log('[ CONTEXT ] ', context)
     if (context.notFound) {
       res.status(404)
     }

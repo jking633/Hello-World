@@ -2,14 +2,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import PropTypes from 'prop-types'
-import ArticleDetailModal from '../components/ArticleDetailModal'
 import { fetchArticles } from '../actions'
+import ArticleDetailModal from './ArticleListPage'
 
-const ArticleListPage = props => {
+const HomePage = props => {
+  console.log('[ HOME_PAGE ] ', props)
   const [modal, setModal] = useState(false)
   const [currentArticle, setCurrentArticle] = useState({})
 
@@ -42,35 +43,27 @@ const ArticleListPage = props => {
     ))
   }
 
-  const { articles, location, match } = props
-  const category = props && articles[0] && articles[0].source.name
-  const { fetchArticles: loadArticles } = props
   const head = () => {
     return (
       <Helmet key={Math.random()}>
-        <title>{`${category} Articles`}</title>
-        <meta property="og:title" content={`${category} Articles List`} />
+        <title>Daily News</title>
+        <meta property="og:title" content="Daily News" />
         <meta
           name="description"
-          content={`Latest ${category} articles, popular articles from most popular news websites of the world`}
+          content="Breaking news,latest articles, popular articles from most popular news websites of the world"
         />
         <meta name="robots" content="index, follow" />
-        <link
-          rel="canonical"
-          href={`http://localhost:3000/${location.pathname}`}
-        />
+        <link rel="canonical" href="http://localhost:3000" />
       </Helmet>
     )
   }
 
+  const { fetchArticles: loadArticles } = props
+
   useEffect(() => {
     window.scrollTo(0, 0)
-    if (match.params.id) {
-      loadArticles(match.params.id)
-    } else {
-      loadArticles()
-    }
-  }, [loadArticles, match.params.id])
+    loadArticles()
+  }, [loadArticles])
 
   return (
     <div>
@@ -80,7 +73,7 @@ const ArticleListPage = props => {
       ) : null}
       <div className="row">
         <div className="section">
-          <h3>{category}</h3>
+          <h3>Popular Articles</h3>
         </div>
         <div className="divider" />
         <div className="section">
@@ -97,30 +90,26 @@ const mapStateToProps = state => {
   }
 }
 
-const loadData = (store, param) => {
+const loadData = store => {
   // For the connect tag we need Provider component but on the server at this moment app is not rendered yet
   // So we need to use store itself to load data
-  return store.dispatch(fetchArticles(param)) // Manually dispatch a network request
+  return store.dispatch(fetchArticles()) // Manually dispatch a network request
 }
 
-ArticleListPage.propTypes = {
+HomePage.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.any),
   fetchArticles: PropTypes.func,
-  location: PropTypes.objectOf(PropTypes.any),
-  match: PropTypes.objectOf(PropTypes.any),
 }
 
-ArticleListPage.defaultProps = {
+HomePage.defaultProps = {
   articles: [],
   fetchArticles: null,
-  location: null,
-  match: null,
 }
 
 export default {
   component: connect(
     mapStateToProps,
     { fetchArticles }
-  )(ArticleListPage),
-  loadData,
+  )(HomePage),
+  loadData, // passed function API - Manually dispatch a network request
 }
